@@ -10,7 +10,8 @@ function registerCustomPostTypesVisitHbg()
 {
 
     /**----------------------
-    *    PLATSER
+    * PLATS
+    * non-hierarchical
     *------------------------**/
     $labels = array(
         'name'                  => 'Platser',
@@ -25,7 +26,6 @@ function registerCustomPostTypesVisitHbg()
         'feeds'                 => true,
     );
     $args = array(
-        'label'                 => 'Plats',
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
         'taxonomies'            => array( 'type', 'other' ),
@@ -45,14 +45,16 @@ function registerCustomPostTypesVisitHbg()
         'capability_type'       => 'page',
     );
     register_post_type('place', $args);
+
+    $allPlacePostTypes = ['place'];
+
     /**
-     * PLATSTYPER
-     * Not public.
+     * TYP AV PLATS (Museum, Restaurang, Lekplats osv)
+     * non-hierarchical
      */
     $labels = array(
-        'name'                       => 'Typ av plats',
+        'name'                       => 'Platstyper',
         'singular_name'              => 'Typ av plats',
-        'menu_name'                  => 'Platstyper',
     );
     $args = array(
         'labels'                     => $labels,
@@ -66,10 +68,33 @@ function registerCustomPostTypesVisitHbg()
         'show_tagcloud'              => false,
         'rewrite'                    => false,
     );
-    register_taxonomy('type', array( 'place' ), $args);
+    register_taxonomy('type', $allPlacePostTypes, $args);
+
     /**
-     * CUISINES
-     * Not public. Set display of meta box via ACF.
+     * TYP AV AKTIVITET (Sevärdhet, Äta & Dricka, Shopping osv)
+     * hierarchical
+     */
+    $labels = array(
+        'name'                       => 'Aktiviteter',
+        'singular_name'              => 'Aktivitet',
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => true,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_quick_edit'         => true,
+        'meta_box_cb'                => false,
+        'show_in_nav_menus'          => false,
+        'show_tagcloud'              => false,
+        'rewrite'                    => false,
+    );
+    register_taxonomy('activity', $allPlacePostTypes, $args);
+
+    /**
+     * TYP AV KÖK (Vegetariskt, Italienskt, Pizza, Husmanskost osv)
+     * non-hierarchical
      * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
      */
     $labels = array(
@@ -88,10 +113,11 @@ function registerCustomPostTypesVisitHbg()
         'show_tagcloud'              => false,
         'rewrite'                    => false,
     );
-    register_taxonomy('cuisine', array( 'place' ), $args);
+    register_taxonomy('cuisine', $allPlacePostTypes, $args);
+
     /**
-     * OTHER
-     * Not public. Set display of meta box via ACF.
+     * ÖVRIGT
+     * non-hierarchical
      * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
      */
     $labels = array(
@@ -111,7 +137,8 @@ function registerCustomPostTypesVisitHbg()
         'show_tagcloud'              => false,
         'rewrite'                    => false,
     );
-    register_taxonomy('other', array( 'place' ), $args);
+    register_taxonomy('other', $allPlacePostTypes, $args);
+
     /**----------------------
     *    GUIDER
     *------------------------**/
