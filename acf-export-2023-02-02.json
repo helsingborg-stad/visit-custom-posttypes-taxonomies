@@ -1,0 +1,122 @@
+[
+    {
+        "key": "group_63dbb0ca3dab5",
+        "title": "Typ av kök",
+        "fields": [
+            {
+                "key": "field_63dbb0ca18ed4",
+                "label": "Typ av kök",
+                "name": "cuisine",
+                "aria-label": "",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "cuisine",
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "id",
+                "field_type": "multi_select",
+                "allow_null": 1,
+                "acfe_bidirectional": {
+                    "acfe_bidirectional_enabled": "0"
+                },
+                "multiple": 0
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_taxonomy",
+                    "operator": "==",
+                    "value": "type:restaurang"
+                }
+            ],
+            [
+                {
+                    "param": "post_taxonomy",
+                    "operator": "==",
+                    "value": "type:cafe"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "acfe_display_title": "",
+        "acfe_autosync": "",
+        "acfe_form": 0,
+        "acfe_meta": "",
+        "acfe_note": "Display on places with type \"Restaurant\" or \"Cafe\""
+    },
+    {
+        "key": "group_63dbab07f165b",
+        "title": "Typ av plats",
+        "fields": [
+            {
+                "key": "field_63dbafe95d23f",
+                "label": "Typ av plats",
+                "name": "place_type",
+                "aria-label": "",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "type",
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "field_type": "multi_select",
+                "allow_null": 0,
+                "acfe_bidirectional": {
+                    "acfe_bidirectional_enabled": "0"
+                },
+                "acfe_settings": "",
+                "acfe_validate": "",
+                "acfe_permissions": "",
+                "multiple": 0
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "place"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "acfe_display_title": "",
+        "acfe_autosync": "",
+        "acfe_form": 0,
+        "acfe_meta": "",
+        "acfe_note": ""
+    }
+]
