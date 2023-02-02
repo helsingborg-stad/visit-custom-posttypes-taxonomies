@@ -1,0 +1,15 @@
+{
+    "name": "helsingborg-stad/visit-custom-posttypes-taxonomies",
+    "description": "Custom post types taxonomies for Visit",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anna Johansson",
+            "email": "anna.johansson4@helsingborg.se"
+        }
+    ],
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
