@@ -13,33 +13,10 @@ function registerCustomPostTypesVisitHbg()
     *    PLATSER
     *------------------------**/
     $labels = array(
-        'name'                  => _x('Places', 'Post Type General Name', 'municipio'),
-        'singular_name'         => _x('Place', 'Post Type Singular Name', 'municipio'),
-        'menu_name'             => __('Places', 'municipio'),
-        'name_admin_bar'        => __('Place', 'municipio'),
-        'archives'              => __('Item Archives', 'municipio'),
-        'attributes'            => __('Item Attributes', 'municipio'),
-        'parent_item_colon'     => __('Parent Item:', 'municipio'),
-        'all_items'             => __('All Items', 'municipio'),
-        'add_new_item'          => __('Add New Item', 'municipio'),
-        'add_new'               => __('Add New', 'municipio'),
-        'new_item'              => __('New Item', 'municipio'),
-        'edit_item'             => __('Edit Item', 'municipio'),
-        'update_item'           => __('Update Item', 'municipio'),
-        'view_item'             => __('View Item', 'municipio'),
-        'view_items'            => __('View Items', 'municipio'),
-        'search_items'          => __('Search Item', 'municipio'),
-        'not_found'             => __('Not found', 'municipio'),
-        'not_found_in_trash'    => __('Not found in Trash', 'municipio'),
-        'featured_image'        => __('Featured Image', 'municipio'),
-        'set_featured_image'    => __('Set featured image', 'municipio'),
-        'remove_featured_image' => __('Remove featured image', 'municipio'),
-        'use_featured_image'    => __('Use as featured image', 'municipio'),
-        'insert_into_item'      => __('Insert into item', 'municipio'),
-        'uploaded_to_this_item' => __('Uploaded to this item', 'municipio'),
-        'items_list'            => __('Items list', 'municipio'),
-        'items_list_navigation' => __('Items list navigation', 'municipio'),
-        'filter_items_list'     => __('Filter items list', 'municipio'),
+        'name'                  => 'Platser',
+        'singular_name'         => 'Plats',
+        'menu_name'             => 'Platser',
+        'name_admin_bar'        => 'Plats',
     );
     $rewrite = array(
         'slug'                  => 'plats',
@@ -48,7 +25,7 @@ function registerCustomPostTypesVisitHbg()
         'feeds'                 => true,
     );
     $args = array(
-        'label'                 => __('Place', 'municipio'),
+        'label'                 => 'Plats',
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
         'taxonomies'            => array( 'type', 'other' ),
@@ -73,24 +50,9 @@ function registerCustomPostTypesVisitHbg()
      * Not public.
      */
     $labels = array(
-        'name'                       => _x('Typ av plats', 'Taxonomy General Name', 'text_domain'),
-        'singular_name'              => _x('Typ av plats', 'Taxonomy Singular Name', 'text_domain'),
-        'menu_name'                  => __('Typ av plats', 'text_domain'),
-        'all_items'                  => __('Alla typer', 'text_domain'),
-        'new_item_name'              => __('Ny typ', 'text_domain'),
-        'add_new_item'               => __('Lägg till ny typ', 'text_domain'),
-        'edit_item'                  => __('Edit Item', 'text_domain'),
-        'update_item'                => __('Update Item', 'text_domain'),
-        'view_item'                  => __('View Item', 'text_domain'),
-        'separate_items_with_commas' => __('Separate items with commas', 'text_domain'),
-        'add_or_remove_items'        => __('Add or remove items', 'text_domain'),
-        'choose_from_most_used'      => __('Choose from the most used', 'text_domain'),
-        'popular_items'              => __('Popular Items', 'text_domain'),
-        'search_items'               => __('Search Items', 'text_domain'),
-        'not_found'                  => __('Not Found', 'text_domain'),
-        'no_terms'                   => __('No items', 'text_domain'),
-        'items_list'                 => __('Items list', 'text_domain'),
-        'items_list_navigation'      => __('Items list navigation', 'text_domain'),
+        'name'                       => 'Typ av plats',
+        'singular_name'              => 'Typ av plats',
+        'menu_name'                  => 'Platstyper',
     );
     $args = array(
         'labels'                     => $labels,
@@ -111,26 +73,8 @@ function registerCustomPostTypesVisitHbg()
      * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
      */
     $labels = array(
-        'name'                       => _x('Kök', 'Taxonomy General Name', 'text_domain'),
-        'singular_name'              => _x('Kök', 'Taxonomy Singular Name', 'text_domain'),
-        'menu_name'                  => __('Kök', 'text_domain'),
-        'all_items'                  => __('All Items', 'text_domain'),
-        'parent_item'                => __('Parent Item', 'text_domain'),
-        'parent_item_colon'          => __('Parent Item:', 'text_domain'),
-        'new_item_name'              => __('New Item Name', 'text_domain'),
-        'add_new_item'               => __('Add New Item', 'text_domain'),
-        'edit_item'                  => __('Edit Item', 'text_domain'),
-        'update_item'                => __('Update Item', 'text_domain'),
-        'view_item'                  => __('View Item', 'text_domain'),
-        'separate_items_with_commas' => __('Separate items with commas', 'text_domain'),
-        'add_or_remove_items'        => __('Add or remove items', 'text_domain'),
-        'choose_from_most_used'      => __('Choose from the most used', 'text_domain'),
-        'popular_items'              => __('Popular Items', 'text_domain'),
-        'search_items'               => __('Search Items', 'text_domain'),
-        'not_found'                  => __('Not Found', 'text_domain'),
-        'no_terms'                   => __('No items', 'text_domain'),
-        'items_list'                 => __('Items list', 'text_domain'),
-        'items_list_navigation'      => __('Items list navigation', 'text_domain'),
+        'name'                       => 'Kök',
+        'singular_name'              => 'Kök',
     );
     $args = array(
         'labels'                     => $labels,
@@ -151,26 +95,9 @@ function registerCustomPostTypesVisitHbg()
      * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
      */
     $labels = array(
-        'name'                       => _x('Övrigt', 'Taxonomy General Name', 'text_domain'),
-        'singular_name'              => _x('Övrigt', 'Taxonomy Singular Name', 'text_domain'),
-        'menu_name'                  => __('Övrigt', 'text_domain'),
-        'all_items'                  => __('All Items', 'text_domain'),
-        'parent_item'                => __('Parent Item', 'text_domain'),
-        'parent_item_colon'          => __('Parent Item:', 'text_domain'),
-        'new_item_name'              => __('New Item Name', 'text_domain'),
-        'add_new_item'               => __('Add New Item', 'text_domain'),
-        'edit_item'                  => __('Edit Item', 'text_domain'),
-        'update_item'                => __('Update Item', 'text_domain'),
-        'view_item'                  => __('View Item', 'text_domain'),
-        'separate_items_with_commas' => __('Separate items with commas', 'text_domain'),
-        'add_or_remove_items'        => __('Add or remove items', 'text_domain'),
-        'choose_from_most_used'      => __('Choose from the most used', 'text_domain'),
-        'popular_items'              => __('Popular Items', 'text_domain'),
-        'search_items'               => __('Search Items', 'text_domain'),
-        'not_found'                  => __('Not Found', 'text_domain'),
-        'no_terms'                   => __('No items', 'text_domain'),
-        'items_list'                 => __('Items list', 'text_domain'),
-        'items_list_navigation'      => __('Items list navigation', 'text_domain'),
+        'name'                       => 'Övrigt',
+        'singular_name'              => 'Övrigt',
+        'menu_name'                  => 'Övrigt',
     );
     $args = array(
         'labels'                     => $labels,
@@ -189,33 +116,8 @@ function registerCustomPostTypesVisitHbg()
     *    GUIDER
     *------------------------**/
     $labels = array(
-        'name'                  => _x('Guides', 'Post Type General Name', 'municipio'),
-        'singular_name'         => _x('Guide', 'Post Type Singular Name', 'municipio'),
-        'menu_name'             => __('Guides', 'municipio'),
-        'name_admin_bar'        => __('Guide', 'municipio'),
-        'archives'              => __('Item Archives', 'municipio'),
-        'attributes'            => __('Item Attributes', 'municipio'),
-        'parent_item_colon'     => __('Parent Item:', 'municipio'),
-        'all_items'             => __('All Items', 'municipio'),
-        'add_new_item'          => __('Add New Item', 'municipio'),
-        'add_new'               => __('Add New', 'municipio'),
-        'new_item'              => __('New Item', 'municipio'),
-        'edit_item'             => __('Edit Item', 'municipio'),
-        'update_item'           => __('Update Item', 'municipio'),
-        'view_item'             => __('View Item', 'municipio'),
-        'view_items'            => __('View Items', 'municipio'),
-        'search_items'          => __('Search Item', 'municipio'),
-        'not_found'             => __('Not found', 'municipio'),
-        'not_found_in_trash'    => __('Not found in Trash', 'municipio'),
-        'featured_image'        => __('Featured Image', 'municipio'),
-        'set_featured_image'    => __('Set featured image', 'municipio'),
-        'remove_featured_image' => __('Remove featured image', 'municipio'),
-        'use_featured_image'    => __('Use as featured image', 'municipio'),
-        'insert_into_item'      => __('Insert into item', 'municipio'),
-        'uploaded_to_this_item' => __('Uploaded to this item', 'municipio'),
-        'items_list'            => __('Items list', 'municipio'),
-        'items_list_navigation' => __('Items list navigation', 'municipio'),
-        'filter_items_list'     => __('Filter items list', 'municipio'),
+        'name'                  => 'Guider',
+        'singular_name'         => 'Guide',
     );
     $rewrite = array(
         'slug'                  => 'guide',
@@ -224,7 +126,7 @@ function registerCustomPostTypesVisitHbg()
         'feeds'                 => true,
     );
     $args = array(
-        'label'                 => __('Guides', 'municipio'),
+        'label'                 => 'Guider',
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
         'taxonomies'            => array( '' ),
