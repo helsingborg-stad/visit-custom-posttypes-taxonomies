@@ -54,6 +54,7 @@ class App
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
 
+        load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
         // Acf auto import and export ACF Fields
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
@@ -142,7 +143,7 @@ class App
              */
             [
                 'labels'            => [
-                    'name'          => __('Cuisines', 'visit'),
+                    'name'          => _x('Cuisine', 'Singular term name', 'visit'),
                     'singular_name' => _x('Cuisine', 'Singular term name', 'visit'),
                 ],
                 'key'               => 'cuisine',
