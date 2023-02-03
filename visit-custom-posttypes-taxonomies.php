@@ -32,6 +32,19 @@ class App
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
         add_action('init', [$this, 'setupAcfFieldGroups']);
+
+        if (class_exists('AcfExportManager')) {
+        // Acf auto import and export ACF Fields
+            add_action('plugins_loaded', function () {
+                $acfExportManager = new \AcfExportManager\AcfExportManager();
+                $acfExportManager->setTextdomain('visit');
+                $acfExportManager->setExportFolder(plugin_dir_path(__FILE__) . '/library/AcfFields/');
+                $acfExportManager->autoExport([
+                    'visit-activity' => 'group_63dcbd004f856',
+                ]);
+                $acfExportManager->import();
+            });
+        }
     }
 
     public static function getPostTypes()
@@ -371,4 +384,9 @@ class App
 }
 
 // Instantiate class
-$visit = App::instance();
+// $visit = App::instance();
+
+// Start application
+add_action('plugins_loaded', function () {
+    App::instance();
+}, 21);
