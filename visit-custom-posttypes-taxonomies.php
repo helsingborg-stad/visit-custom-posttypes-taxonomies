@@ -1,9 +1,27 @@
 <?php
 
 /*
- * Plugin Name: Visit Helsingborg: Custom Post Types and Taxonomies
+ * Plugin Name: Visit Helsingborg: Custom Post Types, Taxonomies and ACF Fields
+ * Plugin URI: -
+ * Description:
+ * Version: 0.1
+ * Author: Anna Johansson
+ * Author URI: -
+ * Text domain: visit
  */
+
 namespace Visit;
+
+if (!defined('VISIT_PATH')) {
+    define('VISIT_PATH', plugin_dir_path(__FILE__));
+}
+
+/**
+ * Composer autoloader from plugin
+ */
+if (file_exists(VISIT_PATH . 'vendor/autoload.php')) {
+    require_once VISIT_PATH . 'vendor/autoload.php';
+}
 
 class App
 {
@@ -29,22 +47,25 @@ class App
     }
     public function __construct()
     {
+
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
         add_action('init', [$this, 'setupAcfFieldGroups']);
 
-        if (class_exists('AcfExportManager')) {
         // Acf auto import and export ACF Fields
-            add_action('plugins_loaded', function () {
-                $acfExportManager = new \AcfExportManager\AcfExportManager();
-                $acfExportManager->setTextdomain('visit');
-                $acfExportManager->setExportFolder(plugin_dir_path(__FILE__) . '/library/AcfFields/');
-                $acfExportManager->autoExport([
-                    'visit-activity' => 'group_63dcbd004f856',
-                ]);
-                $acfExportManager->import();
-            });
-        }
+        add_action('plugins_loaded', function () {
+            $acfExportManager = new \AcfExportManager\AcfExportManager();
+            $acfExportManager->setTextdomain('visit');
+            $acfExportManager->setExportFolder(VISIT_PATH . '/library/AcfFields/');
+            $acfExportManager->autoExport([
+                'visit-activity' => 'group_63dcbd004f856',
+                'visit-cuisine' => 'group_63dbb0ca3dab5',
+                'visit-other' => 'group_63dd0967db81c',
+            ]);
+            $acfExportManager->import();
+        });
+
+        load_plugin_textdomain('visit', false, VISIT_PATH . '/languages');
     }
 
     public static function getPostTypes()
@@ -384,9 +405,4 @@ class App
 }
 
 // Instantiate class
-// $visit = App::instance();
-
-// Start application
-add_action('plugins_loaded', function () {
-    App::instance();
-}, 21);
+$visit = App::instance();
