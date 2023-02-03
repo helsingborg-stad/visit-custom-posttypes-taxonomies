@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Plugin Name: Visit Helsingborg Custom Post Types and Taxonomies
+ * Plugin Name: Visit Helsingborg: Custom Post Types and Taxonomies
  */
 namespace Visit;
 
@@ -31,6 +31,7 @@ class App
     {
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
+        add_action('init', [$this, 'setupAcfFieldGroups']);
     }
 
     public static function getPostTypes()
@@ -135,11 +136,11 @@ class App
     }
 
    /**
-    * It registers a post type.
+    * Registers a post type.
     *
     * @param array postTypeArgs An array of arguments for the post type.
     *
-    * @return The post type that has been registered.
+    * @return WP_Post_Type|WP_Error The registered post type object on success, WP_Error object on ailure.
     */
     protected static function registerPostType(array $postTypeArgs = [])
     {
@@ -202,6 +203,13 @@ class App
         }
         return register_post_type($postTypeArgs['key'], $args);
     }
+    /**
+     * Registers a taxonomy
+     *
+     * @param  array $taxonomyArgs An array of arguments for the taxonomy.
+     *
+     * @return WP_Taxonomy|WP_Error The registered taxonomy object on success, WP_Error object on failure.
+     */
     protected static function registerTaxonomy(array $taxonomyArgs = [])
     {
         // Taxonomy key must exist
@@ -232,6 +240,74 @@ class App
         }
         return register_taxonomy($taxonomyArgs['key'], $args['post_types'], $args);
     }
+
+    /**
+    * Register ACF field groups.
+    *
+    * @return void
+    */
+    public static function setupAcfFieldGroups()
+    {
+
+        if (function_exists('acf_add_local_field_group')) :
+            acf_add_local_field_group(array(
+            'key' => 'group_63dbb0ca3dab5',
+            'title' => __('Cuisine', 'visit'),
+            'fields' => array(
+                array(
+                    'key' => 'field_63dbb0ca18ed4',
+                    'label' => __('Cuisine', 'visit'),
+                    'name' => 'cuisine',
+                    'aria-label' => '',
+                    'type' => 'taxonomy',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'taxonomy' => 'cuisine',
+                    'add_term' => 1,
+                    'save_terms' => 1,
+                    'load_terms' => 1,
+                    'return_format' => 'id',
+                    'field_type' => 'multi_select',
+                    'allow_null' => 1,
+                    'acfe_bidirectional' => array(
+                        'acfe_bidirectional_enabled' => '0',
+                    ),
+                    'multiple' => 0,
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'post_taxonomy',
+                        'operator' => '==',
+                        'value' => 'activity:ata-dricka',
+                    ),
+                ),
+            ),
+            'menu_order' => 0,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'left',
+            'instruction_placement' => 'label',
+            'hide_on_screen' => '',
+            'active' => true,
+            'description' => '',
+            'show_in_rest' => 0,
+            'acfe_display_title' => '',
+            'acfe_autosync' => '',
+            'acfe_form' => 0,
+            'acfe_meta' => '',
+            'acfe_note' => __('Display on places categorised under "Food & Drink"', 'visit'),
+            ));
+        endif;
+    }
 }
 
+// Instantiate class
 $visit = App::instance();
