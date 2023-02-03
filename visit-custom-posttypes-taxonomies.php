@@ -16,6 +16,9 @@ if (!defined('VISIT_PATH')) {
     define('VISIT_PATH', plugin_dir_path(__FILE__));
 }
 
+add_action('init', function () {
+    load_plugin_textdomain('visit', false, VISIT_PATH . 'languages');
+});
 /**
  * Composer autoloader from plugin
  */
@@ -50,13 +53,12 @@ class App
 
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
-        add_action('init', [$this, 'setupAcfFieldGroups']);
 
         // Acf auto import and export ACF Fields
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
-            $acfExportManager->setExportFolder(VISIT_PATH . '/library/AcfFields/');
+            $acfExportManager->setExportFolder(VISIT_PATH . 'library/AcfFields/');
             $acfExportManager->autoExport([
                 'visit-activity' => 'group_63dcbd004f856',
                 'visit-cuisine' => 'group_63dbb0ca3dab5',
@@ -64,8 +66,6 @@ class App
             ]);
             $acfExportManager->import();
         });
-
-        load_plugin_textdomain('visit', false, VISIT_PATH . '/languages');
     }
 
     public static function getPostTypes()
