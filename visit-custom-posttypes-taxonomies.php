@@ -3,174 +3,235 @@
 /*
  * Plugin Name: Visit Helsingborg Custom Post Types and Taxonomies
  */
+namespace Visit;
 
- add_action('init', 'registerCustomPostTypesVisitHbg');
-
-function registerCustomPostTypesVisitHbg()
+class App
 {
-
-    /**----------------------
-    * PLATS
-    * non-hierarchical
-    *------------------------**/
-    $labels = array(
-        'name'                  => 'Platser',
-        'singular_name'         => 'Plats',
-        'menu_name'             => 'Platser',
-        'name_admin_bar'        => 'Plats',
-    );
-    $rewrite = array(
-        'slug'                  => 'plats',
-        'with_front'            => false,
-        'pages'                 => true,
-        'feeds'                 => true,
-    );
-    $args = array(
-        'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
-        'taxonomies'            => array( 'type', 'other' ),
-        'hierarchical'          => false,
-        'public'                => true,
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'menu_position'         => 15,
-        'menu_icon'             => 'dashicons-location',
-        'show_in_admin_bar'     => true,
-        'show_in_nav_menus'     => true,
-        'can_export'            => true,
-        'has_archive'           => false,
-        'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
-        'rewrite'               => $rewrite,
-        'capability_type'       => 'page',
-    );
-    register_post_type('place', $args);
-
-    $allPlacePostTypes = ['place'];
+    /**
+     * The unique instance of the plugin.
+     *
+     * @var Visit\App
+     */
+    private static $instance;
 
     /**
-     * TYP AV PLATS (Museum, Restaurang, Lekplats osv)
-     * non-hierarchical
+     * Gets an instance of our plugin.
+     *
+     * @return Visit\App
      */
-    $labels = array(
-        'name'                       => 'Platstyper',
-        'singular_name'              => 'Typ av plats',
-    );
-    $args = array(
-        'labels'                     => $labels,
-        'hierarchical'               => false,
-        'public'                     => true,
-        'show_ui'                    => true,
-        'show_admin_column'          => true,
-        'show_in_quick_edit'         => true,
-        'meta_box_cb'                => false,
-        'show_in_nav_menus'          => false,
-        'show_tagcloud'              => false,
-        'rewrite'                    => false,
-    );
-    register_taxonomy('type', $allPlacePostTypes, $args);
+    public static function instance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
 
-    /**
-     * TYP AV AKTIVITET (Sevärdhet, Äta & Dricka, Shopping osv)
-     * hierarchical
-     */
-    $labels = array(
-        'name'                       => 'Aktiviteter',
-        'singular_name'              => 'Aktivitet',
-    );
-    $args = array(
-        'labels'                     => $labels,
-        'hierarchical'               => true,
-        'public'                     => true,
-        'show_ui'                    => true,
-        'show_admin_column'          => true,
-        'show_in_quick_edit'         => true,
-        'meta_box_cb'                => false,
-        'show_in_nav_menus'          => false,
-        'show_tagcloud'              => false,
-        'rewrite'                    => false,
-    );
-    register_taxonomy('activity', $allPlacePostTypes, $args);
+        return self::$instance;
+    }
+    public function __construct()
+    {
+        add_action('init', [$this, 'setupPostTypes']);
+        add_action('init', [$this, 'setupTaxonomies']);
+    }
 
-    /**
-     * TYP AV KÖK (Vegetariskt, Italienskt, Pizza, Husmanskost osv)
-     * non-hierarchical
-     * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
-     */
-    $labels = array(
-        'name'                       => 'Kök',
-        'singular_name'              => 'Kök',
-    );
-    $args = array(
-        'labels'                     => $labels,
-        'hierarchical'               => false,
-        'public'                     => true,
-        'show_ui'                    => false,
-        'show_admin_column'          => true,
-        'show_in_quick_edit'         => true,
-        'meta_box_cb'                => false,
-        'show_in_nav_menus'          => false,
-        'show_tagcloud'              => false,
-        'rewrite'                    => false,
-    );
-    register_taxonomy('cuisine', $allPlacePostTypes, $args);
+    public static function getPostTypes()
+    {
+        return [
+            [
+                'key'           => 'place',
+                'hierarchical'  => false,
+                'labels' => [
+                    'name'          => _x('Places', 'Post type pural', 'visit'),
+                    'singular_name' => _x('Place', 'Post type singular', 'visit'),
+                    'menu_name'     => _x('Places', 'Menu label', 'visit'),
+                ],
+                'menu_icon'     => 'dashicons-location',
+                'rewrite'       =>  [
+                    'slug'                  => 'plats',
+                    'with_front'            => false,
+                    'pages'                 => true,
+                ],
+            ],
+            [
+                'key'           => 'guide',
+                'hierarchical'  => false,
+                'labels' => [
+                    'name'          => _x('Guides', 'Post type pural', 'visit'),
+                    'singular_name' => _x('Guide', 'Post type singular', 'visit'),
+                    'menu_name'     => _x('Guides', 'Menu label', 'visit'),
+                ],
+                'menu_icon' => 'dashicons-thumbs-up',
+                'rewrite'       =>  [
+                    'slug'                  => 'guider',
+                    'with_front'            => false,
+                    'pages'                 => true,
+                ],
+            ]
+        ];
+    }
 
-    /**
-     * ÖVRIGT
-     * non-hierarchical
-     * Using terms rather than meta values to easily be able to add new ones that are shareable across posts.
-     */
-    $labels = array(
-        'name'                       => 'Övrigt',
-        'singular_name'              => 'Övrigt',
-        'menu_name'                  => 'Övrigt',
-    );
-    $args = array(
-        'labels'                     => $labels,
-        'hierarchical'               => false,
-        'public'                     => true,
-        'show_ui'                    => true,
-        'show_admin_column'          => true,
-        'show_in_quick_edit'         => true,
-        'meta_box_cb'                => false,
-        'show_in_nav_menus'          => false,
-        'show_tagcloud'              => false,
-        'rewrite'                    => false,
-    );
-    register_taxonomy('other', $allPlacePostTypes, $args);
+    public static function getTaxonomies()
+    {
+        return
+        [
+            /**
+             * TYP AV AKTIVITET (Sevärdhet, Äta & Dricka, Shopping osv)
+             * (hierarchial)
+             */
+            [
+                'labels'            => [
+                    'name'          => __('Activities', 'visit'),
+                    'singular_name' => __('Activity', 'visit'),
+                ],
+                'key' => 'activity',
+                'post_types'        => 'place',
+                'hierarchical'      => true,
+                'show_ui' => true,
+                'rewrite'           => [
+                    'slug'          => 'aktivitet',
+                    'with_front'    => false,
+                    'hierarchical'  => false,
+                ],
+            ],
+            /**
+             * ÖVRIGT
+             * (non-hierarchial)
+             */
+            [
+                'labels'            => [
+                    'name'          => __('Other', 'visit'),
+                    'singular_name' => _x('Other', 'Singular term name', 'visit'),
+                ],
+                'key' => 'other',
+                'post_types'        => 'place',
+                'hierarchical'      => false,
+            ],
+            /**
+             * TYP AV KÖK (Vegetariskt, Italienskt, Pizza, Husmanskost osv)
+             * non-hierarchical
+             */
+            [
+                'labels'            => [
+                    'name'          => __('Cuisines', 'visit'),
+                    'singular_name' => _x('Cuisine', 'Singular term name', 'visit'),
+                ],
+                'key'               => 'cuisine',
+                'post_types'        => 'place',
+                'hierarchical'      => false,
+            ],
+        ];
+    }
 
-    /**----------------------
-    *    GUIDER
-    *------------------------**/
-    $labels = array(
-        'name'                  => 'Guider',
-        'singular_name'         => 'Guide',
-    );
-    $rewrite = array(
-        'slug'                  => 'guide',
-        'with_front'            => false,
-        'pages'                 => true,
-        'feeds'                 => true,
-    );
-    $args = array(
-        'label'                 => 'Guider',
-        'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
-        'taxonomies'            => array( '' ),
-        'hierarchical'          => false,
-        'public'                => true,
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'menu_position'         => 15,
-        'menu_icon'             => 'dashicons-thumbs-up',
-        'show_in_admin_bar'     => true,
-        'show_in_nav_menus'     => true,
-        'can_export'            => true,
-        'has_archive'           => false,
-        'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
-        'rewrite'               => $rewrite,
-        'capability_type'       => 'page',
-    );
-    register_post_type('guide', $args);
+    public function setupPostTypes()
+    {
+        foreach (self::getPostTypes() as $postType) {
+            self::registerPostType($postType);
+        }
+    }
+    public function setupTaxonomies()
+    {
+        foreach (self::getTaxonomies() as $taxonomy) {
+            self::registerTaxonomy($taxonomy);
+        }
+    }
+
+   /**
+    * It registers a post type.
+    *
+    * @param array postTypeArgs An array of arguments for the post type.
+    *
+    * @return The post type that has been registered.
+    */
+    protected static function registerPostType(array $postTypeArgs = [])
+    {
+        // Post type key must exist
+        if (empty($postTypeArgs['key'])) {
+            return false;
+        }
+
+        // Default argument values.
+        // Will be overwritten if existing in $postTypeArgs.
+        $args = [
+            'supports'              => [ 'title', 'editor', 'thumbnail', 'revisions' ],
+            'hierarchical'          => false,
+            'public'                => true,
+            'show_ui'               => true,
+            'show_in_menu'          => true,
+            'menu_position'         => 15,
+            'show_in_admin_bar'     => true,
+            'show_in_nav_menus'     => true,
+            'can_export'            => true,
+            'exclude_from_search'   => false,
+            'publicly_queryable'    => true,
+            'has_archive'           => false,
+            'capability_type'       => 'page',
+            'labels' => [
+                'archives'              => __('Item Archives', 'visit'),
+                'attributes'            => __('Item Attributes', 'visit'),
+                'parent_item_colon'     => __('Parent Item:', 'visit'),
+                'all_items'             => __('All Items', 'visit'),
+                'add_new_item'          => __('Add New', 'visit'),
+                'add_new'               => __('Add New', 'visit'),
+                'new_item'              => __('New Item', 'visit'),
+                'edit_item'             => __('Edit Item', 'visit'),
+                'update_item'           => __('Update Item', 'visit'),
+                'view_item'             => __('View Item', 'visit'),
+                'view_items'            => __('View Items', 'visit'),
+                'search_items'          => __('Search Item', 'visit'),
+                'not_found'             => __('Not found', 'visit'),
+                'not_found_in_trash'    => __('Not found in Trash', 'visit'),
+                'featured_image'        => __('Featured Image', 'visit'),
+                'set_featured_image'    => __('Set featured image', 'visit'),
+                'remove_featured_image' => __('Remove featured image', 'visit'),
+                'use_featured_image'    => __('Use as featured image', 'visit'),
+                'insert_into_item'      => __('Insert into item', 'visit'),
+                'uploaded_to_this_item' => __('Uploaded to this item', 'visit'),
+                'items_list'            => __('Items list', 'visit'),
+                'items_list_navigation' => __('Items list navigation', 'visit'),
+                'filter_items_list'     => __('Filter items list', 'visit'),
+            ],
+        ];
+
+        foreach ($postTypeArgs as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    $args[$key][$k] = $v;
+                }
+            } else {
+                $args[$key] = $value;
+            }
+        }
+        return register_post_type($postTypeArgs['key'], $args);
+    }
+    protected static function registerTaxonomy(array $taxonomyArgs = [])
+    {
+        // Taxonomy key must exist
+        if (empty($taxonomyArgs['key'])) {
+            return false;
+        }
+        $args                    =  [
+            'hierarchical'       => false,
+            'show_ui'            => false,
+            'post_types'         => implode(',', self::getPostTypes()),
+            'public'             => true,
+            'show_ui'            => false,
+            'show_admin_column'  => true,
+            'show_in_quick_edit' => true,
+            'meta_box_cb'        => false,
+            'show_in_nav_menus'  => false,
+            'show_tagcloud'      => false,
+            'rewrite'            => false,
+        ];
+        foreach ($taxonomyArgs as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    $args[$key][$k] = $v;
+                }
+            } else {
+                $args[$key] = $value;
+            }
+        }
+        return register_taxonomy($taxonomyArgs['key'], $args['post_types'], $args);
+    }
 }
+
+$visit = App::instance();
