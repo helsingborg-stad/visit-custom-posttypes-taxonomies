@@ -83,15 +83,10 @@ class App
                     'name'          => __('Activities', 'visit'),
                     'singular_name' => __('Activity', 'visit'),
                 ],
-                'key' => 'activity',
-                'post_types'        => 'place',
-                'hierarchical'      => true,
-                'show_ui' => true,
-                'rewrite'           => [
-                    'slug'          => 'aktivitet',
-                    'with_front'    => false,
-                    'hierarchical'  => false,
-                ],
+                'key'          => 'activity',
+                'post_types'   => 'place',
+                'hierarchical' => true,
+                'show_ui'      => true,
             ],
             /**
              * ÖVRIGT
@@ -105,6 +100,7 @@ class App
                 'key' => 'other',
                 'post_types'        => 'place',
                 'hierarchical'      => false,
+                'show_ui'      => true,
             ],
             /**
              * TYP AV KÖK (Vegetariskt, Italienskt, Pizza, Husmanskost osv)
@@ -118,6 +114,7 @@ class App
                 'key'               => 'cuisine',
                 'post_types'        => 'place',
                 'hierarchical'      => false,
+                'show_ui'      => true,
             ],
         ];
     }
@@ -250,18 +247,18 @@ class App
     {
 
         if (function_exists('acf_add_local_field_group')) :
-            
+
             /**----------------------
              * ACTIVITIES
              *------------------------**/
 
                 acf_add_local_field_group(array(
                     'key' => 'group_63dcbd004f856',
-                    'title' => __('Activities', 'visit' ),
+                    'title' => __('Activities', 'visit'),
                     'fields' => array(
                         array(
                             'key' => 'field_63dcbd00231bd',
-                            'label' => __('Activities', 'visit' ),
+                            'label' => __('Activities', 'visit'),
                             'name' => 'activities',
                             'aria-label' => '',
                             'type' => 'taxonomy',
@@ -310,7 +307,7 @@ class App
                     'acfe_meta' => '',
                     'acfe_note' => '',
                 ));
-                
+
             /**----------------------
              * CUISINE
              *------------------------**/
