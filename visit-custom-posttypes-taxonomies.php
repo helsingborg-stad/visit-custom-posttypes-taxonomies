@@ -250,10 +250,18 @@ class App
         if (empty($taxonomyArgs['key'])) {
             return false;
         }
+
+        $postTypes = [];
+        if ($types = self::getPostTypes()) {
+            foreach ($types as $type) {
+                $postTypes[] = $type['key'];
+            }
+        }
+
         $args                    =  [
             'hierarchical'       => false,
             'show_ui'            => false,
-            'post_types'         => implode(',', self::getPostTypes()),
+            'post_types'         => implode(',', $postTypes),
             'public'             => true,
             'show_ui'            => false,
             'show_admin_column'  => true,
