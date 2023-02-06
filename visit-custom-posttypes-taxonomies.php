@@ -74,6 +74,7 @@ class App
         return [
             [
                 'key'           => 'place',
+                'has_archive'   => 'platser',
                 'hierarchical'  => false,
                 'labels' => [
                     'name'          => _x('Places', 'Post type pural', 'visit'),
@@ -82,13 +83,14 @@ class App
                 ],
                 'menu_icon'     => 'dashicons-location',
                 'rewrite'       =>  [
-                    'slug'                  => 'plats',
+                    'slug'                  => 'platser',
                     'with_front'            => false,
                     'pages'                 => true,
                 ],
             ],
             [
                 'key'           => 'guide',
+                'has_archive'   => 'guider',
                 'hierarchical'  => false,
                 'labels' => [
                     'name'          => _x('Guides', 'Post type pural', 'visit'),
@@ -195,7 +197,7 @@ class App
             'can_export'            => true,
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
-            'has_archive'           => false,
+            'has_archive'           => true,
             'capability_type'       => 'page',
             'labels' => [
                 'archives'              => __('Item Archives', 'visit'),
