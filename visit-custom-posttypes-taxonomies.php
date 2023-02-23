@@ -74,7 +74,6 @@ class App
         return [
             [
                 'key'           => 'place',
-                'has_archive'   => 'platser',
                 'hierarchical'  => false,
                 'labels' => [
                     'name'          => _x('Places', 'Post type pural', 'visit'),
@@ -197,7 +196,7 @@ class App
             'can_export'            => true,
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
-            'has_archive'           => true,
+            'has_archive'           => false,
             'capability_type'       => 'page',
             'labels' => [
                 'archives'              => __('Item Archives', 'visit'),
