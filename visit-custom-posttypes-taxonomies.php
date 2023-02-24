@@ -60,9 +60,10 @@ class App
             $acfExportManager->setTextdomain('visit');
             $acfExportManager->setExportFolder(VISIT_PATH . 'library/AcfFields/');
             $acfExportManager->autoExport([
+                'visit-location' => 'group_63eb4a0aa476e',
                 'visit-activity' => 'group_63dcbd004f856',
-                'visit-cuisine' => 'group_63dbb0ca3dab5',
-                'visit-other' => 'group_63dd0967db81c',
+                'visit-cuisine'  => 'group_63dbb0ca3dab5',
+                'visit-other'    => 'group_63dd0967db81c',
             ]);
             $acfExportManager->import();
         });
