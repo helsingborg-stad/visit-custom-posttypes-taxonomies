@@ -1,7 +1,7 @@
-<?php 
+<?php
 
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
+if (function_exists('acf_add_local_field_group')) {
+    acf_add_local_field_group(array(
     'key' => 'group_63dbb0ca3dab5',
     'title' => __('Cuisine', 'visit'),
     'fields' => array(
@@ -40,6 +40,13 @@
                 'value' => 'activity:ata-dricka',
             ),
         ),
+        1 => array(
+            0 => array(
+                'param' => 'post_taxonomy',
+                'operator' => '==',
+                'value' => 'activity:mat-dryck',
+            ),
+        ),
     ),
     'menu_order' => 0,
     'position' => 'normal',
@@ -55,5 +62,5 @@
     'acfe_form' => 0,
     'acfe_meta' => '',
     'acfe_note' => 'Display on places categorised under "Food & Drink"',
-));
-}
+    ));
+}

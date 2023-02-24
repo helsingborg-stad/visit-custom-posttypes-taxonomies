@@ -36,6 +36,13 @@
                 "operator": "==",
                 "value": "activity:ata-dricka"
             }
+        ],
+        [
+            {
+                "param": "post_taxonomy",
+                "operator": "==",
+                "value": "activity:restaurang"
+            }
         ]
     ],
     "menu_order": 0,
