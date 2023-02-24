@@ -70,7 +70,7 @@ class App
             $acfExportManager->import();
         });
 
-        add_action('acf/init', [$this, 'googleMapApiKey']);
+        add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
     }
     public static function getPostTypes()
     {
@@ -286,12 +286,21 @@ class App
         return register_taxonomy($taxonomyArgs['key'], $args['post_types'], $args);
     }
 
-
-    public function googleMapApiKey()
+   /**
+    * If the constant GOOGLE_API_KEY is defined, then set the key property of the  array to the
+    * value of the constant
+    *
+    * @param api The API key to use for the Google Maps API.
+    *
+    * @return The  array is being returned.
+    */
+    public function googleMapApiKey($api)
     {
         if (defined('GOOGLE_API_KEY')) {
-            acf_update_setting('google_api_key', GOOGLE_API_KEY);
+            $api['key'] = GOOGLE_API_KEY;
         }
+
+        return $api;
     }
     /**
      * It checks if the post has any activities selected, and if so, it checks if any of the
