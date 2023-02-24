@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Visit Helsingborg: Custom Post Types, Taxonomies and ACF "
 "Fields\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-24 12:56+0000\n"
+"POT-Creation-Date: 2023-02-24 13:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -22,22 +22,22 @@ msgstr ""
 msgid "-"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:122
+#: visit-custom-posttypes-taxonomies.php:121
 #: library/AcfFields/php/visit-activity.php:8
 #: library/AcfFields/php/visit-activity.php:12
 msgid "Activities"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:123
+#: visit-custom-posttypes-taxonomies.php:122
 msgid "Activity"
 msgstr ""
 
+#: visit-custom-posttypes-taxonomies.php:209
 #: visit-custom-posttypes-taxonomies.php:210
-#: visit-custom-posttypes-taxonomies.php:211
 msgid "Add New"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:209
+#: visit-custom-posttypes-taxonomies.php:208
 msgid "All Items"
 msgstr ""
 
@@ -54,35 +54,35 @@ msgstr ""
 msgid "Cuisine"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:213
+#: visit-custom-posttypes-taxonomies.php:212
 msgid "Edit Item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:220
+#: visit-custom-posttypes-taxonomies.php:219
 msgid "Featured Image"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:228
+#: visit-custom-posttypes-taxonomies.php:227
 msgid "Filter items list"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:224
+#: visit-custom-posttypes-taxonomies.php:223
 msgid "Insert into item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:206
+#: visit-custom-posttypes-taxonomies.php:205
 msgid "Item Archives"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:207
+#: visit-custom-posttypes-taxonomies.php:206
 msgid "Item Attributes"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:226
+#: visit-custom-posttypes-taxonomies.php:225
 msgid "Items list"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:227
+#: visit-custom-posttypes-taxonomies.php:226
 msgid "Items list navigation"
 msgstr ""
 
@@ -91,29 +91,29 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:100
+#: visit-custom-posttypes-taxonomies.php:99
 msgctxt "Menu label"
 msgid "Guides"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:84
+#: visit-custom-posttypes-taxonomies.php:83
 msgctxt "Menu label"
 msgid "Places"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:212
+#: visit-custom-posttypes-taxonomies.php:211
 msgid "New Item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:218
+#: visit-custom-posttypes-taxonomies.php:217
 msgid "Not found"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:219
+#: visit-custom-posttypes-taxonomies.php:218
 msgid "Not found in Trash"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:136
+#: visit-custom-posttypes-taxonomies.php:135
 msgid "Other"
 msgstr ""
 
@@ -122,73 +122,89 @@ msgstr ""
 msgid "Other filters"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:208
+#: visit-custom-posttypes-taxonomies.php:207
 msgid "Parent Item:"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:98
+#: library/AcfFields/php/visit-visitorinformation.php:31
+msgid "Phone"
+msgstr ""
+
+#: visit-custom-posttypes-taxonomies.php:97
 msgctxt "Post type pural"
 msgid "Guides"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:82
+#: visit-custom-posttypes-taxonomies.php:81
 msgctxt "Post type pural"
 msgid "Places"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:99
+#: visit-custom-posttypes-taxonomies.php:98
 msgctxt "Post type singular"
 msgid "Guide"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:83
+#: visit-custom-posttypes-taxonomies.php:82
 msgctxt "Post type singular"
 msgid "Place"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:222
-msgid "Remove featured image"
-msgstr ""
-
-#: visit-custom-posttypes-taxonomies.php:217
-msgid "Search Item"
+#: library/AcfFields/php/visit-visitorinformation.php:51
+msgid "Public transport"
 msgstr ""
 
 #: visit-custom-posttypes-taxonomies.php:221
+msgid "Remove featured image"
+msgstr ""
+
+#: visit-custom-posttypes-taxonomies.php:216
+msgid "Search Item"
+msgstr ""
+
+#: visit-custom-posttypes-taxonomies.php:220
 msgid "Set featured image"
 msgstr ""
 
+#: visit-custom-posttypes-taxonomies.php:149
 #: visit-custom-posttypes-taxonomies.php:150
-#: visit-custom-posttypes-taxonomies.php:151
 msgctxt "Singular term name"
 msgid "Cuisine"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:137
+#: visit-custom-posttypes-taxonomies.php:136
 msgctxt "Singular term name"
 msgid "Other"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:214
+#: visit-custom-posttypes-taxonomies.php:213
 msgid "Update Item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:225
+#: visit-custom-posttypes-taxonomies.php:224
 msgid "Uploaded to this item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:223
+#: visit-custom-posttypes-taxonomies.php:222
 msgid "Use as featured image"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:215
+#: visit-custom-posttypes-taxonomies.php:214
 msgid "View Item"
 msgstr ""
 
-#: visit-custom-posttypes-taxonomies.php:216
+#: visit-custom-posttypes-taxonomies.php:215
 msgid "View Items"
 msgstr ""
 
 #. Name of the plugin
 msgid "Visit Helsingborg: Custom Post Types, Taxonomies and ACF Fields"
+msgstr ""
+
+#: library/AcfFields/php/visit-visitorinformation.php:8
+msgid "Visitor information"
+msgstr ""
+
+#: library/AcfFields/php/visit-visitorinformation.php:12
+msgid "Website"
 msgstr ""

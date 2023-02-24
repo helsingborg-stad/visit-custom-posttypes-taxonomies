@@ -15,9 +15,6 @@ namespace Visit;
 if (!defined('VISIT_PATH')) {
     define('VISIT_PATH', plugin_dir_path(__FILE__));
 }
-add_action('init', function () {
-    load_plugin_textdomain('visit', false, VISIT_PATH . 'languages');
-});
 /**
  * Composer autoloader from plugin
  */
@@ -25,6 +22,7 @@ if (file_exists(VISIT_PATH . 'vendor/autoload.php')) {
     require_once VISIT_PATH . 'vendor/autoload.php';
 }
 
+// TODO Split App into smaller subclasses
 class App
 {
     /**
@@ -49,26 +47,27 @@ class App
     }
     public function __construct()
     {
-
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
 
         add_action('save_post_place', [$this,'normalizePlaceActivities'], 10, 3);
 
-        load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
         // Acf auto import and export ACF Fields
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
             $acfExportManager->setExportFolder(VISIT_PATH . 'library/AcfFields/');
             $acfExportManager->autoExport([
-                'visit-location' => 'group_63eb4a0aa476e',
-                'visit-activity' => 'group_63dcbd004f856',
-                'visit-cuisine'  => 'group_63dbb0ca3dab5',
-                'visit-other'    => 'group_63dd0967db81c',
+                'visit-visitorinformation' => 'group_63f8b99f12d0f',
+                'visit-location'           => 'group_63eb4a0aa476e',
+                'visit-activity'           => 'group_63dcbd004f856',
+                'visit-cuisine'            => 'group_63dbb0ca3dab5',
+                'visit-other'              => 'group_63dd0967db81c',
             ]);
             $acfExportManager->import();
         });
+
+        load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
         add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
     }

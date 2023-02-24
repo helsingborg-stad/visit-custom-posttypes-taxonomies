@@ -4,7 +4,7 @@ msgstr ""
 "Fields\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-03 14:18+0000\n"
-"PO-Revision-Date: 2023-02-24 12:57+0000\n"
+"PO-Revision-Date: 2023-02-24 13:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: Svenska\n"
 "Language: sv_SE\n"
@@ -21,22 +21,22 @@ msgstr ""
 msgid "-"
 msgstr "-"
 
-#: visit-custom-posttypes-taxonomies.php:122
+#: visit-custom-posttypes-taxonomies.php:121
 #: library/AcfFields/php/visit-activity.php:8
 #: library/AcfFields/php/visit-activity.php:12
 msgid "Activities"
 msgstr "Aktiviteter"
 
-#: visit-custom-posttypes-taxonomies.php:123
+#: visit-custom-posttypes-taxonomies.php:122
 msgid "Activity"
 msgstr "Aktivitet"
 
+#: visit-custom-posttypes-taxonomies.php:209
 #: visit-custom-posttypes-taxonomies.php:210
-#: visit-custom-posttypes-taxonomies.php:211
 msgid "Add New"
 msgstr "Lägg till"
 
-#: visit-custom-posttypes-taxonomies.php:209
+#: visit-custom-posttypes-taxonomies.php:208
 msgid "All Items"
 msgstr "Alla"
 
@@ -53,35 +53,35 @@ msgstr "Område eller gatuadress för platsen."
 msgid "Cuisine"
 msgstr "Typ av kök"
 
-#: visit-custom-posttypes-taxonomies.php:213
+#: visit-custom-posttypes-taxonomies.php:212
 msgid "Edit Item"
 msgstr "Redigera"
 
-#: visit-custom-posttypes-taxonomies.php:220
+#: visit-custom-posttypes-taxonomies.php:219
 msgid "Featured Image"
 msgstr "Utvald bild"
 
-#: visit-custom-posttypes-taxonomies.php:228
+#: visit-custom-posttypes-taxonomies.php:227
 msgid "Filter items list"
 msgstr "Filtrera"
 
-#: visit-custom-posttypes-taxonomies.php:224
+#: visit-custom-posttypes-taxonomies.php:223
 msgid "Insert into item"
 msgstr "Lägg till"
 
-#: visit-custom-posttypes-taxonomies.php:206
+#: visit-custom-posttypes-taxonomies.php:205
 msgid "Item Archives"
 msgstr "Arkiv"
 
-#: visit-custom-posttypes-taxonomies.php:207
+#: visit-custom-posttypes-taxonomies.php:206
 msgid "Item Attributes"
 msgstr "Attribut"
 
-#: visit-custom-posttypes-taxonomies.php:226
+#: visit-custom-posttypes-taxonomies.php:225
 msgid "Items list"
 msgstr "Lista"
 
-#: visit-custom-posttypes-taxonomies.php:227
+#: visit-custom-posttypes-taxonomies.php:226
 msgid "Items list navigation"
 msgstr "Navigering"
 
@@ -90,29 +90,29 @@ msgstr "Navigering"
 msgid "Location"
 msgstr "Plats eller adress"
 
-#: visit-custom-posttypes-taxonomies.php:100
+#: visit-custom-posttypes-taxonomies.php:99
 msgctxt "Menu label"
 msgid "Guides"
 msgstr "Guider"
 
-#: visit-custom-posttypes-taxonomies.php:84
+#: visit-custom-posttypes-taxonomies.php:83
 msgctxt "Menu label"
 msgid "Places"
 msgstr "Platser"
 
-#: visit-custom-posttypes-taxonomies.php:212
+#: visit-custom-posttypes-taxonomies.php:211
 msgid "New Item"
 msgstr "Ny"
 
-#: visit-custom-posttypes-taxonomies.php:218
+#: visit-custom-posttypes-taxonomies.php:217
 msgid "Not found"
 msgstr "Inget funnet"
 
-#: visit-custom-posttypes-taxonomies.php:219
+#: visit-custom-posttypes-taxonomies.php:218
 msgid "Not found in Trash"
 msgstr "Inget funnet i papperskorgen"
 
-#: visit-custom-posttypes-taxonomies.php:136
+#: visit-custom-posttypes-taxonomies.php:135
 msgid "Other"
 msgstr "Övrigt"
 
@@ -121,73 +121,89 @@ msgstr "Övrigt"
 msgid "Other filters"
 msgstr "Övriga filter"
 
-#: visit-custom-posttypes-taxonomies.php:208
+#: visit-custom-posttypes-taxonomies.php:207
 msgid "Parent Item:"
 msgstr "Förälder:"
 
-#: visit-custom-posttypes-taxonomies.php:98
+#: library/AcfFields/php/visit-visitorinformation.php:31
+msgid "Phone"
+msgstr "Telefon"
+
+#: visit-custom-posttypes-taxonomies.php:97
 msgctxt "Post type pural"
 msgid "Guides"
 msgstr "Guider"
 
-#: visit-custom-posttypes-taxonomies.php:82
+#: visit-custom-posttypes-taxonomies.php:81
 msgctxt "Post type pural"
 msgid "Places"
 msgstr "Platser"
 
-#: visit-custom-posttypes-taxonomies.php:99
+#: visit-custom-posttypes-taxonomies.php:98
 msgctxt "Post type singular"
 msgid "Guide"
 msgstr "Guide"
 
-#: visit-custom-posttypes-taxonomies.php:83
+#: visit-custom-posttypes-taxonomies.php:82
 msgctxt "Post type singular"
 msgid "Place"
 msgstr "Plats"
 
-#: visit-custom-posttypes-taxonomies.php:222
+#: library/AcfFields/php/visit-visitorinformation.php:51
+msgid "Public transport"
+msgstr "Kollektivtraffik"
+
+#: visit-custom-posttypes-taxonomies.php:221
 msgid "Remove featured image"
 msgstr "Ta bort utvald bild"
 
-#: visit-custom-posttypes-taxonomies.php:217
+#: visit-custom-posttypes-taxonomies.php:216
 msgid "Search Item"
 msgstr "Sök"
 
-#: visit-custom-posttypes-taxonomies.php:221
+#: visit-custom-posttypes-taxonomies.php:220
 msgid "Set featured image"
 msgstr "Sätt utvald bild"
 
+#: visit-custom-posttypes-taxonomies.php:149
 #: visit-custom-posttypes-taxonomies.php:150
-#: visit-custom-posttypes-taxonomies.php:151
 msgctxt "Singular term name"
 msgid "Cuisine"
 msgstr "Typ av kök"
 
-#: visit-custom-posttypes-taxonomies.php:137
+#: visit-custom-posttypes-taxonomies.php:136
 msgctxt "Singular term name"
 msgid "Other"
 msgstr "Övrigt"
 
-#: visit-custom-posttypes-taxonomies.php:214
+#: visit-custom-posttypes-taxonomies.php:213
 msgid "Update Item"
 msgstr "Uppdatera"
 
-#: visit-custom-posttypes-taxonomies.php:225
+#: visit-custom-posttypes-taxonomies.php:224
 msgid "Uploaded to this item"
 msgstr "Uppladdad hit"
 
-#: visit-custom-posttypes-taxonomies.php:223
+#: visit-custom-posttypes-taxonomies.php:222
 msgid "Use as featured image"
 msgstr "Använd som utvald bild"
 
-#: visit-custom-posttypes-taxonomies.php:215
+#: visit-custom-posttypes-taxonomies.php:214
 msgid "View Item"
 msgstr "Visa"
 
-#: visit-custom-posttypes-taxonomies.php:216
+#: visit-custom-posttypes-taxonomies.php:215
 msgid "View Items"
 msgstr "Visa alla"
 
 #. Name of the plugin
 msgid "Visit Helsingborg: Custom Post Types, Taxonomies and ACF Fields"
 msgstr "Visit Helsingborg: Custom Post Types, Taxonomies and ACF Fields"
+
+#: library/AcfFields/php/visit-visitorinformation.php:8
+msgid "Visitor information"
+msgstr "Besökarinfo"
+
+#: library/AcfFields/php/visit-visitorinformation.php:12
+msgid "Website"
+msgstr "Webbsida"
