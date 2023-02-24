@@ -53,6 +53,8 @@ class App
         add_action('init', [$this, 'setupPostTypes']);
         add_action('init', [$this, 'setupTaxonomies']);
 
+        add_action('save_post_place', [$this,'normalizePlaceActivities'], 10, 3);
+
         load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
         // Acf auto import and export ACF Fields
         add_action('plugins_loaded', function () {
@@ -68,15 +70,42 @@ class App
             $acfExportManager->import();
         });
 
-            add_action('acf/init', [$this, 'googleMapApiKey']);
+        add_action('acf/init', [$this, 'googleMapApiKey']);
     }
-    public function googleApiKey()
+    public function googleMapApiKey()
     {
         if (defined('GOOGLE_API_KEY')) {
             acf_update_setting('google_api_key', GOOGLE_API_KEY);
         }
     }
-
+    /**
+     * It checks if the post has any activities selected, and if so, it checks if any of the
+     * activities' parents are not selected, and if so, it adds them to the list of selected activities
+     *
+     * @param postId The ID of the post being saved
+     * @param post The post object.
+     * @param update true if this is an existing post being updated, false if it's a new post
+     */
+    public function normalizePlaceActivities($postId, $post, $update)
+    {
+        if (isset($_POST['acf']['field_63dcbd00231bd'])) {
+            $termIds = $_POST['acf']['field_63dcbd00231bd'];
+            foreach ($termIds as $termId) {
+                $term = get_term_by('term_id', $termId, 'activity');
+                if (!is_wp_error($term)) {
+                    $ancestors = get_ancestors($term->term_id, $term->taxonomy);
+                    if (!is_wp_error($ancestors)) {
+                        foreach ($ancestors as $ancestorId) {
+                            if (!in_array($ancestorId, $_POST['acf']['field_63dcbd00231bd'], true)) {
+                                array_push($_POST['acf']['field_63dcbd00231bd'], $ancestorId);
+                            }
+                        }
+                        error_log('POST: ' . print_r($_POST, 1));
+                    }
+                }
+            }
+        }
+    }
     public static function getPostTypes()
     {
         return [
