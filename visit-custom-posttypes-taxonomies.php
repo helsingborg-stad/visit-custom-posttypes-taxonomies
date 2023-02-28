@@ -284,7 +284,7 @@ class App
         'meta_box_cb'        => false,
         'show_in_nav_menus'  => false,
         'show_tagcloud'      => false,
-        'rewrite'            => false,
+        'rewrite'            => true,
         ];
         foreach ($taxonomyArgs as $key => $value) {
             if (is_array($value)) {
