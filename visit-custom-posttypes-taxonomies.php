@@ -125,6 +125,19 @@ class App
             'post_types'   => 'place',
             'hierarchical' => true,
             'show_ui'      => true,
+        ],        /**
+        * VÄDERLEK (Solsken, Regn, Snö osv)
+        * (non-hierarchial)
+        */
+        [
+            'labels'            => [
+                'name'          => __('Weathers', 'visit'),
+                'singular_name' => _x('Weather', 'Singular term name', 'visit'),
+            ],
+            'key'          => 'weather',
+            'post_types'   => 'place',
+            'hierarchical' => false,
+            'show_ui'      => true,
         ],
         /**
          * ÖVRIGT
