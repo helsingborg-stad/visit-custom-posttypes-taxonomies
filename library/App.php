@@ -35,7 +35,6 @@ class App
         }
 
         add_action('pre_get_posts', [$this, 'setupPageForTermSecondaryQuery']);
-        add_action('Municipio/Hook/loopEnd', [$this, 'printPageForTermSecondaryQuery']);
 
         load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
@@ -111,22 +110,5 @@ class App
             $secondaryQuery = new \WP_Query($secondaryQueryArgs);
             $query->set('secondary_query', $secondaryQuery);
         }
-    }
-    public function printPageForTermSecondaryQuery()
-    {
-        $secondaryQuery = get_query_var('secondary_query');
-        if (!$secondaryQuery) {
-            return;
-        }
-        $output = '';
-        if ($secondaryQuery->have_posts()) :
-            while ($secondaryQuery->have_posts()) :
-                $secondaryQuery->the_post(); {
-                $output .= "<h2>" . get_the_title() . "</h2>";
-                }
-            endwhile;
-            wp_reset_postdata();
-        endif;
-        return $output;
     }
 }
