@@ -166,6 +166,10 @@ class App
             'post_types'        => 'place',
             'hierarchical'      => false,
             'show_ui'      => true,
+            'rewrite' => [
+                'slug' => 'typ-av-kok',
+                'with_front' => false,
+            ],
         ],
         ];
     }
@@ -288,6 +292,7 @@ class App
         ];
         foreach ($taxonomyArgs as $key => $value) {
             if (is_array($value)) {
+                $args[$key] = [];
                 foreach ($value as $k => $v) {
                     $args[$key][$k] = $v;
                 }
