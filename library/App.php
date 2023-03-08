@@ -44,7 +44,7 @@ class App
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
-            $acfExportManager->setExportFolder(VISIT_PATH . 'library/AcfFields/');
+            $acfExportManager->setExportFolder(plugin_basename(__FILE__) . '/library/AcfFields/');
             $acfExportManager->autoExport([
             'visit-visitorinformation' => 'group_63f8b99f12d0f',
             'visit-location'           => 'group_63eb4a0aa476e',
