@@ -36,7 +36,7 @@ class App
 
         add_action('pre_get_posts', [$this, 'setupPageForTermSecondaryQuery']);
 
-        load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
+        load_plugin_textdomain('visit', false, dirname(plugin_basename(__DIR__)) . '/languages');
 
         add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
 
@@ -44,7 +44,7 @@ class App
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
-            $acfExportManager->setExportFolder(plugin_basename(__FILE__) . '/library/AcfFields/');
+            $acfExportManager->setExportFolder(plugin_dir_path(__FILE__) . 'AcfFields/');
             $acfExportManager->autoExport([
             'visit-visitorinformation' => 'group_63f8b99f12d0f',
             'visit-location'           => 'group_63eb4a0aa476e',
