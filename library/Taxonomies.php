@@ -25,7 +25,7 @@ class Taxonomies
                 'singular_name' => __('Activity', 'visit'),
             ],
             'key'          => 'activity',
-            'post_types'   => 'place',
+            'post_types'   => ['place', 'guide'],
             'hierarchical' => true,
             'show_ui'      => true,
         ],        /**
@@ -38,7 +38,7 @@ class Taxonomies
                 'singular_name' => _x('Weather', 'Singular term name', 'visit'),
             ],
             'key'          => 'weather',
-            'post_types'   => 'place',
+            'post_types'   => ['place', 'guide'],
             'hierarchical' => false,
             'show_ui'      => true,
         ],
