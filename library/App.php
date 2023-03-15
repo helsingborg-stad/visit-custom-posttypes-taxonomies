@@ -33,8 +33,9 @@ class App
         if (class_exists('Visit\Taxonomies')) {
             new Taxonomies();
         }
-
-        add_action('pre_get_posts', [$this, 'setupPageForTermSecondaryQuery']);
+        if (class_exists('Visit\BlockManager')) {
+            new BlockManager();
+        }
 
         load_plugin_textdomain('visit', false, dirname(plugin_basename(__DIR__)) . '/languages');
 
@@ -70,45 +71,5 @@ class App
         }
 
         return $api;
-    }
-
-    /**
-     * Sets up a secondary query for the current page based on the is_page_for_term field.
-     *
-     * @param WP_Query $query The current WP_Query object.
-     * @return void
-     */
-    public function setupPageForTermSecondaryQuery($query)
-    {
-        if (!$query->is_main_query()) {
-            return;
-        }
-
-        $isPageForTerm = get_field('is_page_for_term', $query->queried_object_id);
-
-        if (is_array($isPageForTerm) && !empty($isPageForTerm)) {
-            $secondaryQueryArgs =
-            [
-            'post_type' => 'place',
-            'tax_query' => [
-                'relation' => 'OR',
-            ],
-            'posts_per_page' => get_option('posts_per_page'),
-            ];
-            foreach ($isPageForTerm as $termId) {
-                $term = get_term($termId);
-                if (!$term || is_wp_error($term)) {
-                    continue;
-                }
-                $secondaryQueryArgs['tax_query'][] = [
-                'taxonomy' => $term->taxonomy,
-                'field' => 'term_id',
-                'terms' => $term->term_id,
-                ];
-            }
-
-            $secondaryQuery = new \WP_Query($secondaryQueryArgs);
-            $query->set('secondary_query', $secondaryQuery);
-        }
     }
 }

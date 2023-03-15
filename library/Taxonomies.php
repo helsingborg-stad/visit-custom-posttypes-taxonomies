@@ -97,17 +97,20 @@ class Taxonomies
             return false;
         }
 
-        $postTypes = [];
-        if ($types = PostTypes::getPostTypes()) {
-            foreach ($types as $type) {
-                $postTypes[] = $type['key'];
+        if (empty($taxonomyArgs['post_types'])) {
+            $postTypes = [];
+            if ($types = PostTypes::getPostTypes()) {
+                foreach ($types as $type) {
+                    $postTypes[] = $type['key'];
+                }
             }
+        } else {
+            $postTypes = $taxonomyArgs['post_types'];
         }
 
         $args                    =  [
         'hierarchical'       => false,
         'show_ui'            => false,
-        'post_types'         => implode(',', $postTypes),
         'public'             => true,
         'show_ui'            => false,
         'show_admin_column'  => true,
@@ -127,7 +130,7 @@ class Taxonomies
                 $args[$key] = $value;
             }
         }
-        return register_taxonomy($taxonomyArgs['key'], $args['post_types'], $args);
+        return register_taxonomy($taxonomyArgs['key'], $postTypes, $args);
     }
     /**
      * It checks if the post has any activities selected, and if so, it checks if any of the
