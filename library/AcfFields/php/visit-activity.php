@@ -40,6 +40,13 @@
                 'value' => 'place',
             ),
         ),
+        1 => array(
+            0 => array(
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'guide',
+            ),
+        ),
     ),
     'menu_order' => 0,
     'position' => 'normal',
