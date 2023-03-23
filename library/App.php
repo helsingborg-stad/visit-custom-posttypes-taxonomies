@@ -52,6 +52,7 @@ class App
             'visit-activity'           => 'group_63dcbd004f856',
             'visit-cuisine'            => 'group_63dbb0ca3dab5',
             'visit-other'              => 'group_63dd0967db81c',
+            'visit-weather'            => 'group_641c187122f99',
             ]);
             $acfExportManager->import();
         });
