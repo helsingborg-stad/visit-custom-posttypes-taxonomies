@@ -28,7 +28,6 @@ class PostTypes
         ],
         [
             'key'           => 'guide',
-            'has_archive'   => 'guider',
             'hierarchical'  => false,
             'labels' => [
                 'name'          => _x('Guides', 'Post type pural', 'visit'),
