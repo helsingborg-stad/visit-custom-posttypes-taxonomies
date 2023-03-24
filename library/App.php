@@ -51,7 +51,7 @@ class App
 
     public function quickLinkColors($item)
     {
-        $item->color = get_field('menu_item_color', $item->ID);
+        $item['color'] = get_field('menu_item_color', $item['id']);
         return $item;
     }
 
