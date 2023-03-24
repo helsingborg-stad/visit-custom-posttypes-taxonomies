@@ -40,7 +40,6 @@ class App
         load_plugin_textdomain('visit', false, dirname(plugin_basename(__DIR__)) . '/languages');
 
         add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
-
         // Acf auto import and export ACF Fields
         add_action('plugins_loaded', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
@@ -56,7 +55,10 @@ class App
             ]);
             $acfExportManager->import();
         });
+        add_action('admin_head', [$this, 'hideFieldGroup'], 1, 1);
+        add_action('acf/save_post', [$this, 'setPostSingleShowFeaturedImage'], 1, 1);
     }
+
    /**
     * If the constant GOOGLE_API_KEY is defined, then set the key property of the  array to the
     * value of the constant
@@ -72,5 +74,15 @@ class App
         }
 
         return $api;
+    }
+    // Hide the Municipio field group "Display settings" from the post edit screen
+    public function hideFieldGroup()
+    {
+        echo '<style type="text/css">#acf-group_56c33cf1470dc { display:none!important; }</style>';
+    }
+    // Always set post_single_show_featured_image from "Display settings" to true
+    public function setPostSingleShowFeaturedImage($postId)
+    {
+        $_POST['acf']['field_56c33e148efe3'] = 1;
     }
 }
