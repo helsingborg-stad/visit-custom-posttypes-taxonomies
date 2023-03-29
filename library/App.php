@@ -47,6 +47,9 @@ class App
 
         // Allow setting quick link colors
         add_filter('Municipio/Navigation/Item', [$this, 'quickLinkColors'], 10, 3);
+
+        // Display breadcrumbs after the content on all posts
+        add_filter('Municipio/Partials/Navigation/HelperNavBeforeContent', '__return_false');
     }
 
     public function quickLinkColors($item)
