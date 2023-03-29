@@ -51,14 +51,10 @@ class App
         // Display breadcrumbs after the content on all posts
         add_filter('Municipio/Partials/Navigation/HelperNavBeforeContent', '__return_false');
 
-        // add_action('Municipio/Controller/Init', [$this, 'controllerInit']);
         // Place Quicklinks below the content on all places
         add_filter('Municipio/Controller/Singular/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
     }
 
-    public function controllerInit()
-    {
-    }
     public function placeQuicklinksAfterContent($displayAfterContent, $postId)
     {
         if (get_post_type($postId) == 'place') {
@@ -73,9 +69,13 @@ class App
     }
 
     // Hide the Municipio field group "Display settings" from the post edit screen
+    // Hide the field group for Quicklinks placement on post edit screen for places
     public function hideFieldGroup()
     {
-        echo '<style type="text/css">#acf-group_56c33cf1470dc { display:none!important; }</style>';
+        echo '<style type="text/css">
+        #acf-group_56c33cf1470dc,
+        .post-type-place #acf-group_64227d79a7f57 { display:none!important; }
+        </style>';
     }
     // Always set post_single_show_featured_image from "Display settings" to true
     public function setPostSingleShowFeaturedImage($postId)
