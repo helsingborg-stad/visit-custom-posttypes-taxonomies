@@ -67,14 +67,16 @@ class App
         $item['color'] = get_field('menu_item_color', $item['id']);
         return $item;
     }
-
-    // Hide the Municipio field group "Display settings" from the post edit screen
-    // Hide the field group for Quicklinks placement on post edit screen for places
     public function hideFieldGroup()
     {
+        // Hide the Municipio field group "Display settings" from the post edit screen
+        // Hide the field group for Quicklinks placement on post edit screen for places
+        // Hide the Municipio field group "Page Header" from the post edit screen for places
         echo '<style type="text/css">
         #acf-group_56c33cf1470dc,
-        .post-type-place #acf-group_64227d79a7f57 { display:none!important; }
+        .post-type-place #acf-group_64227d79a7f57,
+        .post-type-place #acf-group_5fd1e418be4a8 
+        { display:none!important; }
         </style>';
     }
     // Always set post_single_show_featured_image from "Display settings" to true
