@@ -50,8 +50,22 @@ class App
 
         // Display breadcrumbs after the content on all posts
         add_filter('Municipio/Partials/Navigation/HelperNavBeforeContent', '__return_false');
+
+        // add_action('Municipio/Controller/Init', [$this, 'controllerInit']);
+        // Place Quicklinks below the content on all places
+        add_filter('Municipio/Controller/Singular/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
     }
 
+    public function controllerInit()
+    {
+    }
+    public function placeQuicklinksAfterContent($displayAfterContent, $postId)
+    {
+        if (get_post_type($postId) == 'place') {
+            return true;
+        }
+        return $displayAfterContent;
+    }
     public function quickLinkColors($item)
     {
         $item['color'] = get_field('menu_item_color', $item['id']);
