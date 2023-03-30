@@ -7,6 +7,13 @@ class PostTypes
     public function __construct()
     {
         add_action('init', [$this, 'setupPostTypes']);
+        // hook into Municipios template loader and set our own single.blade.php
+        add_filter('Municipio/blade/view_paths', [$this, 'addBladeViewPath']);
+    }
+    public function addBladeViewPath($paths)
+    {
+        $paths[] = plugin_dir_path(__DIR__) . '/views';
+        return $paths;
     }
     public static function getPostTypes()
     {
