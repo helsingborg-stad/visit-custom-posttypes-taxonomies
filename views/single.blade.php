@@ -6,6 +6,6 @@
             'image' => $featuredImage->src[0]
         ])
         @endhero
+        @include('partials.navigation.fixed')
     @endif
-    @include('partials.navigation.fixed')
 @stop

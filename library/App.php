@@ -76,12 +76,12 @@ class App
     public function hideFieldGroup()
     {
         // Hide the Municipio field group "Display settings" from the post edit screen
+        // Hide the Municipio field group "Page Header" from the post edit screen
         // Hide the field group for Quicklinks placement on post edit screen for places
-        // Hide the Municipio field group "Page Header" from the post edit screen for places
         echo '<style type="text/css">
         #acf-group_56c33cf1470dc,
         .post-type-place #acf-group_64227d79a7f57,
-        .post-type-place #acf-group_5fd1e418be4a8 
+        #acf-group_5fd1e418be4a8 
         { display:none!important; }
         </style>';
     }
