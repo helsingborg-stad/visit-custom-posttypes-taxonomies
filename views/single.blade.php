@@ -6,6 +6,9 @@
             'image' => $featuredImage->src[0]
         ])
         @endhero
-        @include('partials.navigation.fixed')
+        @if (!$placeQuicklinksAfterContent)
+            @include('partials.navigation.fixed')
+        @endif
     @endif
+
 @stop
