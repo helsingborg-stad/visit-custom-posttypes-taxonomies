@@ -59,8 +59,51 @@ class App
 
         // Only display current term and it's children in secondary query filter
         add_filter('Municipio/secondaryQuery/getTermsArgs', [$this, 'getTermsArgs'], 10, 2);
+
+        //Adds search in the end of the meu
+        add_filter('Municipio/Navigation/Nested', array($this, 'addQuicklinksSearchMenuItem'), 10, 3);
     }
 
+/**
+     * Adds search icon to main menu
+     *
+     * @param array     $data          Array containing the menu
+     * @param string    $identifier    What menu being filtered
+     *
+     * @return array
+     */
+    public function addQuicklinksSearchMenuItem($data, $identifier, $pageId)
+    {
+        $enabledLocations = (array) get_theme_mod('search_display');
+
+        if (is_search() || !in_array('quicklinks', $enabledLocations)) {
+            return $data;
+        }
+
+        if ('single' === $identifier) {
+            $data[] = [
+            "id" => "search-icon",
+            "post_parent" => null,
+            "post_type" => null,
+            "active" => false,
+            "ancestor" => false,
+            "children" => false,
+            "label" => "",
+            "href" => "#search",
+            "icon" => [
+                'icon' => 'search',
+                'size' => 'md'
+            ],
+            "isSearch" => true,
+            "attributeList" => [
+                'aria-label' => __("Search", 'municipio'),
+                'data-open' => 'm-search-modal__trigger'
+            ],
+            ];
+        }
+
+        return $data;
+    }
     public function placeQuicklinksAfterContent($displayAfterContent, $postId)
     {
         if (get_post_type($postId) == 'place') {
