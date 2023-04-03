@@ -91,13 +91,13 @@ class App
             "label" => "",
             "href" => "#search",
             "icon" => [
-                'icon' => 'search',
-                'size' => 'md'
+            'icon' => 'search',
+            'size' => 'md'
             ],
             "isSearch" => true,
             "attributeList" => [
-                'aria-label' => __("Search", 'municipio'),
-                'data-open' => 'm-search-modal__trigger'
+            'aria-label' => __("Search", 'municipio'),
+            'data-open' => 'm-search-modal__trigger'
             ],
             ];
         }
@@ -139,25 +139,49 @@ class App
      *
      * @return array An array of terms.
      */
-    public function getTermsArgs(array $args = [], array $data = []): array
+    public function getTermsArgs(array $args = [], array $data = [])
     {
-        $currentTerm = $this->isPageForTerm();
-        if (!empty($currentTerm)) {
-            foreach ($currentTerm as $termId) {
+
+        $pageForTerms = $this->isPageForTerm();
+
+        if (empty($pageForTerms) || !in_array($args['taxonomy'], ['activity', 'cuisine'])) {
+            return $args;
+        }
+
+        if ($args['taxonomy'] === 'cuisine') {
+            $pageForTerms = $this->isPageForTerm();
+            foreach ($pageForTerms as $termId) {
                 $term = get_term($termId);
-                if (is_a($term, 'WP_Term')) {
-                    // Check if current term has a parent
-                    $parent = $term->parent;
-                    if (empty($parent)) {
-                        // Add current term children to query arguments
-                        $args['include'] = get_term_children($termId, $term->taxonomy);
-                    } else {
-                        // Current term has a parent, skip it
-                        continue;
+                if (is_a($term, 'WP_Term') && 'activity' == $term->taxonomy) {
+                    if ($this->isFoodRelated($term->slug)) {
+                        // We've found at least one food-related activity on this page,
+                        // so we can return the args for the cuisine filter and display it.
+                        return $args;
                     }
                 }
             }
+            return false;
         }
+
+        if (isset($args['taxonomy']) && $args['taxonomy'] == 'activity') {
+            $termIdsToInclude = [];
+            foreach ($pageForTerms as $termId) {
+                $term = get_term($termId);
+                if (is_a($term, 'WP_Term')) {
+                    $termChildren = get_term_children($termId, $term->taxonomy);
+                    if (!empty($termChildren) && !is_wp_error($termChildren)) {
+                        $termIdsToInclude = array_merge($termIdsToInclude, $termChildren);
+                    }
+                }
+            }
+            // No child terms found, no need to display the filter.
+            if (empty($termIdsToInclude)) {
+                return false;
+            }
+            // Child term found, include only those in the filter.
+            $args['include'] = $termIdsToInclude;
+        }
+
         return $args;
     }
     /**
@@ -198,5 +222,27 @@ class App
             return false;
         }
         return $terms;
+    }
+    /**
+     * > This function checks if a given term name is related to a food activity.
+     *
+     * @param string termSlug The slug of the term you want to check.
+     *
+     * @return A boolean value.
+     */
+    public function isFoodRelated(string $termSlug = '')
+    {
+        return in_array(
+            $termSlug,
+            [
+                'mat-dryck',
+                'ata-dricka',
+                'mat-och-dryck',
+                'ata-och-dricka',
+                'food',
+                'food-beverage',
+                'food-and-beverage',
+            ]
+        );
     }
 }
