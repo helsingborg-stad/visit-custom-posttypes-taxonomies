@@ -1,4 +1,4 @@
-@extends('templates.master')
+@extends('templates.single')
 @section('hero-top-sidebar')
     @if (!empty($featuredImage->src[0]))
         @hero([
