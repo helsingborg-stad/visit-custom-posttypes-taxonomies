@@ -79,7 +79,6 @@ class App
                 $data,
                 [
                 "id" => "search-icon",
-                "label" => '',
                 "isSearch" => true,
                 "classList" => ["c-nav__item--search"],
                 "attributeList" => [
