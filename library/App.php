@@ -80,6 +80,7 @@ class App
                 [
                 "id" => "search-icon",
                 "isSearch" => true,
+                "label" => __('Discover more', 'visit'),
                 "classList" => ["c-nav__item--search"],
                 "attributeList" => [
                     'aria-label' => __("Search", 'municipio'),
