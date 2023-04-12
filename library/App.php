@@ -60,11 +60,11 @@ class App
         // Only display current term and it's children in secondary query filter
         add_filter('Municipio/secondaryQuery/getTermsArgs', [$this, 'getTermsArgs'], 10, 2);
 
-        //Handle search in the quicklinks menu
-        add_filter('Municipio/Navigation/Item', [$this, 'quicklinksSearchMenuItem'], 10, 3);
+        //Adds search in the end of the meu
+        add_filter('Municipio/Navigation/Nested', array($this, 'addQuicklinksSearchMenuItem'), 10, 3);
     }
 
-    /**
+/**
      * Adds search icon to main menu
      *
      * @param array     $data          Array containing the menu
@@ -72,25 +72,36 @@ class App
      *
      * @return array
      */
-    public function quicklinksSearchMenuItem($data, $identifier, $pageId)
+    public function addQuicklinksSearchMenuItem($data, $identifier, $pageId)
     {
-        if ($data['href'] == '#search' && 'single' === $identifier) {
-            $data = array_merge(
-                $data,
-                [
-                "id" => "search-icon",
-                "isSearch" => true,
-                "classList" => ["c-nav__item--search"],
-                "attributeList" => [
-                    'aria-label' => __("Search", 'municipio'),
-                    'data-open' => 'm-search-modal__trigger',
-                ],
-                ]
-            );
-            if (is_front_page() || is_search()) {
-                $data["classList"] = ["u-display--none"];
-            }
+        $enabledLocations = (array) get_theme_mod('search_display');
+
+        if (is_search() || !in_array('quicklinks', $enabledLocations)) {
+            return $data;
         }
+
+        if ('single' === $identifier) {
+            $data[] = [
+            "id" => "search-icon",
+            "post_parent" => null,
+            "post_type" => null,
+            "active" => false,
+            "ancestor" => false,
+            "children" => false,
+            "label" => __('Discover more', 'visit'),
+            "href" => "#search",
+            "icon" => [
+            'icon' => 'search',
+            'size' => 'md'
+            ],
+            "isSearch" => true,
+            "attributeList" => [
+            'aria-label' => __("Search", 'municipio'),
+            'data-open' => 'm-search-modal__trigger'
+            ],
+            ];
+        }
+
         return $data;
     }
     public function placeQuicklinksAfterContent($displayAfterContent, $postId)
