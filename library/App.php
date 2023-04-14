@@ -54,9 +54,6 @@ class App
         // Place Quicklinks below the content on all places
         add_filter('Municipio/Controller/Singular/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
 
-        // Fallback to emblem if no featured image is set
-        add_filter('post_thumbnail_id', [$this, 'fallbackFeaturedImageToEmblem'], 10, 2);
-
         // Only display current term and it's children in secondary query filter
         add_filter('Municipio/secondaryQuery/getTermsArgs', [$this, 'getTermsArgs'], 10, 2);
 
@@ -173,25 +170,7 @@ class App
 
         return $args;
     }
-    /**
-     * If the post has no featured image and it's being displayed on a page for a term
-     * then use the emblem as the featured image
-     *
-     * @note $post is the post object the featured image belongs to
-     * whilst get_queried_object_id() is the id of post/page currently being displayed as the main query.
-     *
-     * @param attachmentId The attachment ID of the featured image.
-     * @param post The post object.
-     *
-     * @return The attachment ID of the featured image.
-     */
-    public function fallbackFeaturedImageToEmblem($attachmentId, $post)
-    {
-        if (0 == $attachmentId && !empty($this->isPageForTerm(get_queried_object_id()))) {
-            $attachmentId = attachment_url_to_postid(get_theme_mod('logotype_emblem'));
-        }
-        return $attachmentId;
-    }
+
     /**
      * If the post has a value for the ACF field "is_page_for_term", return the value of that field.
      * Otherwise, return false.
