@@ -47,6 +47,22 @@ class PostTypes
                 'with_front'            => false,
                 'pages'                 => true,
             ],
+        ],
+        [
+            'key'           => 'infopoint',
+            'hierarchical'  => false,
+            'labels' => [
+                'name'          => _x('Infopoints', 'Post type pural', 'visit'),
+                'singular_name' => _x('Infopoint', 'Post type singular', 'visit'),
+                'menu_name'     => _x('Infopoints', 'Menu label', 'visit'),
+            ],
+            'menu_icon' => 'dashicons-thumbs-up',
+            'rewrite'       =>  [
+                'slug'                  => 'infopoints',
+                'with_front'            => false,
+                'pages'                 => true,
+            ],
+            'has_archive' => true,
         ]
         ];
     }
