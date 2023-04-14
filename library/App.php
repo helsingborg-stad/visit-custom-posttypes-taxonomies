@@ -40,8 +40,6 @@ class App
             new BlockManager();
         }
 
-        load_plugin_textdomain('visit', false, dirname(plugin_basename(__DIR__)) . '/languages');
-
         add_action('admin_head', [$this, 'hideFieldGroup'], 1, 1);
         add_action('acf/save_post', [$this, 'setPostSingleShowFeaturedImage'], 1, 1);
 

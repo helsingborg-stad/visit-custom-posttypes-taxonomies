@@ -8,7 +8,7 @@ class Acf
     {
         add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
         // Acf auto import and export ACF Fields
-        add_action('plugins_loaded', function () {
+        add_action('acf/init', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
             $acfExportManager->setExportFolder(plugin_dir_path(__FILE__) . 'AcfFields/');

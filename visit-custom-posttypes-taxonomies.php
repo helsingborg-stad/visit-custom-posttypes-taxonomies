@@ -9,7 +9,6 @@
  * Author URI: -
  * Text domain: visit
  */
-
 /**
  * Composer autoloader from plugin
  */
@@ -29,3 +28,5 @@ foreach (glob(plugin_dir_path(__FILE__) . 'library/*.php') as $file) {
  * Instantiate main plugin class
  */
 Visit\App::instance();
+
+load_plugin_textdomain('visit', false, dirname(plugin_basename(__FILE__)) . '/languages');
