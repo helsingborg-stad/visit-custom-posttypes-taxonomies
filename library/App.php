@@ -40,7 +40,6 @@ class App
             new BlockManager();
         }
 
-        add_action('admin_head', [$this, 'hideFieldGroup'], 1, 1);
         add_action('acf/save_post', [$this, 'setPostSingleShowFeaturedImage'], 1, 1);
 
         // Allow setting quick link colors
@@ -100,18 +99,7 @@ class App
         $item['color'] = get_field('menu_item_color', $item['id']);
         return $item;
     }
-    public function hideFieldGroup()
-    {
-        // Hide the Municipio field group "Display settings" from the post edit screen
-        // Hide the Municipio field group "Page Header" from the post edit screen
-        // Hide the field group for Quicklinks placement on post edit screen for places
-        echo '<style type="text/css">
-        #acf-group_56c33cf1470dc,
-        .post-type-place #acf-group_64227d79a7f57,
-        #acf-group_5fd1e418be4a8 
-        { display:none!important; }
-        </style>';
-    }
+
     // Always set post_single_show_featured_image from "Display settings" to true
     public function setPostSingleShowFeaturedImage($postId)
     {

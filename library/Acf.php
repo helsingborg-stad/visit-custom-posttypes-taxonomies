@@ -6,7 +6,6 @@ class Acf
 {
     public function __construct()
     {
-        add_filter('acf/fields/google_map/api', [$this, 'googleMapApiKey'], 10, 1);
         // Acf auto import and export ACF Fields
         add_action('acf/init', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
@@ -23,22 +22,5 @@ class Acf
             ]);
             $acfExportManager->import();
         });
-    }
-
-   /**
-    * If the constant GOOGLE_API_KEY is defined, then set the key property of the  array to the
-    * value of the constant
-    *
-    * @param api The API key to use for the Google Maps API.
-    *
-    * @return The  array is being returned.
-    */
-    public function googleMapApiKey($api)
-    {
-        if (defined('GOOGLE_API_KEY')) {
-            $api['key'] = GOOGLE_API_KEY;
-        }
-
-        return $api;
     }
 }
