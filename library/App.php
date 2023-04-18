@@ -68,7 +68,7 @@ class App
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
             $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                $listing['other'][] = \Municipio\Helper\Listing::createListingItem($term->name, $term->icon['src']);
+                $listing['other'][] = \Municipio\Helper\Listing::createListingItem($term->name, $term->icon['src'] ?? '');
             }
         }
         return $listing;
