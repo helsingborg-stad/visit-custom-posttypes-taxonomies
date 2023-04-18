@@ -6,6 +6,23 @@
     'title' => __('Visitor information', 'visit'),
     'fields' => array(
         0 => array(
+            'key' => 'field_643e541e2d2a8',
+            'label' => __('Booking link', 'visit'),
+            'name' => 'booking_link',
+            'aria-label' => '',
+            'type' => 'url',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'placeholder' => '',
+        ),
+        1 => array(
             'key' => 'field_63f8b99f9d02e',
             'label' => __('Website', 'visit'),
             'name' => 'website',
@@ -22,7 +39,7 @@
             'default_value' => '',
             'placeholder' => '',
         ),
-        1 => array(
+        2 => array(
             'key' => 'field_63f8baae9d02f',
             'label' => __('Phone', 'visit'),
             'name' => 'phone',
