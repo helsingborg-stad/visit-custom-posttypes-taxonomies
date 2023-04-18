@@ -56,6 +56,20 @@ class App
 
         //Handle search in the quicklinks menu
         add_filter('Municipio/Navigation/Item', [$this, 'quicklinksSearchMenuItem'], 10, 3);
+
+        // Unlinked terms with term icons from custom taxonomy "other"
+        add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'appendListingItems'], 11, 2);
+    }
+
+    public function appendListingItems($listing, $fields)
+    {
+        if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
+            $listing['other'] = [];
+            foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
+                $listing['other'][] = \Municipio\Helper\Listing::createListingItem($term->name, $term->icon['src']);
+            }
+        }
+        return $listing;
     }
 
     /**
