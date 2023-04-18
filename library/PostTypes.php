@@ -56,13 +56,13 @@ class PostTypes
                 'singular_name' => _x('Infopoint', 'Post type singular', 'visit'),
                 'menu_name'     => _x('Infopoints', 'Menu label', 'visit'),
             ],
-            'menu_icon' => 'dashicons-thumbs-up',
+            'menu_icon' => 'dashicons-info-outline',
             'rewrite'       =>  [
                 'slug'                  => 'infopoints',
                 'with_front'            => false,
                 'pages'                 => true,
             ],
-            'has_archive' => true,
+            'has_archive' => false,
         ]
         ];
     }
