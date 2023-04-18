@@ -59,6 +59,8 @@ class App
 
         // Unlinked terms with term icons from custom taxonomy "other"
         add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'appendListingItems'], 11, 2);
+        // Order listing items
+        add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'orderListingItems'], 99, 1);
     }
 
     public function appendListingItems($listing, $fields)
@@ -70,6 +72,27 @@ class App
             }
         }
         return $listing;
+    }
+
+    public function orderListingItems($listing)
+    {
+
+        $orderedListing = [];
+
+        if (isset($listing['location'])) {
+            $orderedListing['location'] = $listing['location'];
+        }
+        if (isset($listing['phone'])) {
+            $orderedListing['phone'] = $listing['phone'];
+        }
+        if (isset($listing['website'])) {
+            $orderedListing['website'] = $listing['website'];
+        }
+        if (isset($listing['other'])) {
+            $orderedListing['other'] = $listing['other'];
+        }
+
+        return $orderedListing;
     }
 
     /**
