@@ -215,7 +215,7 @@ class App
         return $terms;
     }
     /**
-     * > This function checks if a given term name is related to a food activity.
+     * Checks if a given term name is related to a food activity.
      *
      * @param string termSlug The slug of the term you want to check.
      *
@@ -233,6 +233,24 @@ class App
                 'food',
                 'food-beverage',
                 'food-and-beverage',
+            ]
+        );
+    }
+    /**
+     * Checks if a given term name is the term for the "Bike Approved Accomodation" certification.
+     *
+     * @param string termSlug The slug of the term you want to check.
+     *
+     * @return A boolean value.
+     */
+    public function isBikeApprovedAccommodation(string $termSlug = '')
+    {
+        return in_array(
+            $termSlug,
+            [
+                'bike-approved-accommodation',
+                'bike-approved-accomodation', // common misspelling of "accommodation"
+                'bike-approved',
             ]
         );
     }
