@@ -259,6 +259,7 @@ class App
             $termSlug,
             [
                 'bike-approved-accommodation',
+                'bike-approved-acommodation', // common misspelling of "accommodation"
                 'bike-approved-accomodation', // common misspelling of "accommodation"
                 'bike-approved',
             ]
