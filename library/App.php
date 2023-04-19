@@ -285,12 +285,12 @@ class App
             if (!empty($terms)) {
                 foreach ($terms as $term) {
                     if ($this->isBikeApprovedAccommodation($term->slug)) {
-                        $description = get_field('description', $term) ?? term_description($term) ?? '';
+                        $description = get_field('description', $term) ?? term_description($term) ?? false;
                         $postObject->post_content_filtered .= apply_filters('the_content', \render_blade_view(
                             'partials.bike-approved-accommodation',
                             [
                                 'description' => str_replace(
-                                    ["[plats]","[place]"],
+                                    ["[plats]","[place]"], // Replace with the name of the place being displayed.
                                     $postObject->post_title,
                                     $description
                                 )
