@@ -61,7 +61,11 @@ class App
         add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'appendListingItems'], 11, 2);
         // Order listing items
         add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'orderListingItems'], 99, 1);
+
+        // Print Bike Approved Accommodation info on places with the term
+        add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
     }
+
 
     public function appendListingItems($listing, $fields)
     {
@@ -264,5 +268,39 @@ class App
                 'bike-approved',
             ]
         );
+    }
+
+    /**
+     * The function appends information about bike-approved accommodations to a post object if it has a
+     * certain term.
+     *
+     * @param object $postObject
+     *
+     * @return $postObject
+     */
+    public function appendBikeApprovedAccommodationInfo($postObject)
+    {
+        if (property_exists($postObject, 'post_content_filtered')) {
+            $terms = get_the_terms($postObject->ID, 'other');
+            if (!empty($terms)) {
+                foreach ($terms as $term) {
+                    if ($this->isBikeApprovedAccommodation($term->slug)) {
+                        $description = term_description($term);
+                        $postObject->post_content_filtered .= \render_blade_view(
+                            'partials.bike-approved-accommodation',
+                            [
+                                'description' => str_replace(
+                                    ["[plats]","[place]"],
+                                    $postObject->post_title,
+                                    $description
+                                )
+                            ]
+                        );
+                        break;
+                    }
+                }
+            }
+        }
+        return $postObject;
     }
 }
