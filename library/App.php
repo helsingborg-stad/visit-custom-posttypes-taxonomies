@@ -285,8 +285,8 @@ class App
             if (!empty($terms)) {
                 foreach ($terms as $term) {
                     if ($this->isBikeApprovedAccommodation($term->slug)) {
-                        $description = term_description($term);
-                        $postObject->post_content_filtered .= \render_blade_view(
+                        $description = get_field('description', $term) ?? term_description($term) ?? '';
+                        $postObject->post_content_filtered .= apply_filters('the_content', \render_blade_view(
                             'partials.bike-approved-accommodation',
                             [
                                 'description' => str_replace(
@@ -295,7 +295,7 @@ class App
                                     $description
                                 )
                             ]
-                        );
+                        ));
                         break;
                     }
                 }
