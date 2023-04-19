@@ -68,7 +68,11 @@ class App
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
             $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                $listing['other'][] = \Municipio\Helper\Listing::createListingItem($term->name, $term->icon['src'] ?? '');
+                $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
+                    $term->name,
+                    '',
+                    $term->icon,
+                );
             }
         }
         return $listing;
@@ -89,7 +93,13 @@ class App
             $orderedListing['website'] = $listing['website'];
         }
         if (isset($listing['other'])) {
-            $orderedListing['other'] = $listing['other'];
+            if (is_array($listing['other'])) {
+                foreach ($listing['other'] as $key => $item) {
+                    $orderedListing[$key] = $item;
+                }
+            } else {
+                $orderedListing['other'] = $listing['other'];
+            }
         }
 
         return $orderedListing;
