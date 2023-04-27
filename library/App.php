@@ -36,9 +36,6 @@ class App
         if (class_exists('Visit\Acf')) {
             new Acf();
         }
-        if (class_exists('Visit\BlockManager')) {
-            new BlockManager();
-        }
 
         add_action('acf/save_post', [$this, 'setPostSingleShowFeaturedImage'], 1, 1);
 
