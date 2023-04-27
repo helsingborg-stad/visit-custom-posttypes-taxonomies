@@ -124,7 +124,7 @@ msgstr "Övriga filter"
 msgid "Parent Item:"
 msgstr "Förälder:"
 
-#: library/AcfFields/php/visit-visitorinformation.php:29
+#: library/AcfFields/php/visit-visitorinformation.php:46
 msgid "Phone"
 msgstr "Telefon"
 
@@ -199,7 +199,8 @@ msgstr "Visit Helsingborg: Custom Post Types, Taxonomier och ACF Fält"
 msgid "Visitor information"
 msgstr "Besökarinfo"
 
-#: library/AcfFields/php/visit-visitorinformation.php:12
+#: library/AcfFields/php/visit-infopoints.php:12
+#: library/AcfFields/php/visit-visitorinformation.php:29
 msgid "Website"
 msgstr "Webbsida"
 
@@ -239,3 +240,19 @@ msgstr "Infopoint"
 msgctxt "Menu label"
 msgid "Infopoints"
 msgstr "Infopoints"
+
+#: library/AcfFields/php/visit-infopoints.php:8
+msgid "Infopoint"
+msgstr "Infopoint"
+
+#: library/AcfFields/php/visit-term-description-wysiwyg.php:8
+msgid "Term Description WYSIWYG"
+msgstr "Beskrivning (WYSIWYG)"
+
+#: library/AcfFields/php/visit-term-description-wysiwyg.php:12
+msgid "Description"
+msgstr "Beskrivning"
+
+#: library/AcfFields/php/visit-visitorinformation.php:12
+msgid "Booking link"
+msgstr "Bokningslänk"

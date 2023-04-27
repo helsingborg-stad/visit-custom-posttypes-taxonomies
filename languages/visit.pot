@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-14T11:52:59+00:00\n"
+"POT-Creation-Date: 2023-04-19T14:28:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: visit\n"
@@ -38,6 +38,15 @@ msgstr ""
 msgid "Cuisine"
 msgstr ""
 
+#: library/AcfFields/php/visit-infopoints.php:8
+msgid "Infopoint"
+msgstr ""
+
+#: library/AcfFields/php/visit-infopoints.php:12
+#: library/AcfFields/php/visit-visitorinformation.php:29
+msgid "Website"
+msgstr ""
+
 #: library/AcfFields/php/visit-location.php:8
 #: library/AcfFields/php/visit-location.php:12
 msgid "Location"
@@ -60,15 +69,23 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
+#: library/AcfFields/php/visit-term-description-wysiwyg.php:8
+msgid "Term Description WYSIWYG"
+msgstr ""
+
+#: library/AcfFields/php/visit-term-description-wysiwyg.php:12
+msgid "Description"
+msgstr ""
+
 #: library/AcfFields/php/visit-visitorinformation.php:8
 msgid "Visitor information"
 msgstr ""
 
 #: library/AcfFields/php/visit-visitorinformation.php:12
-msgid "Website"
+msgid "Booking link"
 msgstr ""
 
-#: library/AcfFields/php/visit-visitorinformation.php:29
+#: library/AcfFields/php/visit-visitorinformation.php:46
 msgid "Phone"
 msgstr ""
 

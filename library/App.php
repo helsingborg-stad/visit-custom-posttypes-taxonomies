@@ -61,14 +61,22 @@ class App
         add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'appendListingItems'], 11, 2);
         // Order listing items
         add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'orderListingItems'], 99, 1);
+
+        // Print Bike Approved Accommodation info on places with the term
+        add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
     }
+
 
     public function appendListingItems($listing, $fields)
     {
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
             $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                $listing['other'][] = \Municipio\Helper\Listing::createListingItem($term->name, $term->icon['src'] ?? '');
+                $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
+                    $term->name,
+                    '',
+                    $term->icon,
+                );
             }
         }
         return $listing;
@@ -89,7 +97,13 @@ class App
             $orderedListing['website'] = $listing['website'];
         }
         if (isset($listing['other'])) {
-            $orderedListing['other'] = $listing['other'];
+            if (is_array($listing['other'])) {
+                foreach ($listing['other'] as $key => $item) {
+                    $orderedListing[$key] = $item;
+                }
+            } else {
+                $orderedListing['other'] = $listing['other'];
+            }
         }
 
         return $orderedListing;
@@ -215,7 +229,7 @@ class App
         return $terms;
     }
     /**
-     * > This function checks if a given term name is related to a food activity.
+     * Checks if a given term name is related to a food activity.
      *
      * @param string termSlug The slug of the term you want to check.
      *
@@ -235,5 +249,58 @@ class App
                 'food-and-beverage',
             ]
         );
+    }
+    /**
+     * Checks if a given term name is the term for the "Bike Approved Accomodation" certification.
+     *
+     * @param string termSlug The slug of the term you want to check.
+     *
+     * @return A boolean value.
+     */
+    public function isBikeApprovedAccommodation(string $termSlug = '')
+    {
+        return in_array(
+            $termSlug,
+            [
+                'bike-approved-accommodation',
+                'bike-approved-acommodation', // common misspelling of "accommodation"
+                'bike-approved-accomodation', // common misspelling of "accommodation"
+                'bike-approved',
+            ]
+        );
+    }
+
+    /**
+     * The function appends information about bike-approved accommodations to a post object if it has a
+     * certain term.
+     *
+     * @param object $postObject
+     *
+     * @return $postObject
+     */
+    public function appendBikeApprovedAccommodationInfo($postObject)
+    {
+        if (property_exists($postObject, 'post_content_filtered')) {
+            $terms = get_the_terms($postObject->ID, 'other');
+            if (!empty($terms)) {
+                foreach ($terms as $term) {
+                    if ($this->isBikeApprovedAccommodation($term->slug)) {
+                        $description = get_field('description', $term) ?? term_description($term) ?? false;
+                        $postObject->post_content_filtered .= apply_filters('the_content', \render_blade_view(
+                            'partials.bike-approved-accommodation',
+                            [
+                                'description' => str_replace(
+                                    ["[plats]","[place]"], // Replace with the name of the place being displayed.
+                                    $postObject->post_title,
+                                    $description
+                                )
+                            ]
+                        ));
+                        break;
+                    }
+                }
+            }
+        }
+        return $postObject;
     }
 }
