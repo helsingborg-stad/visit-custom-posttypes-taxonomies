@@ -49,7 +49,7 @@ class App
         add_filter('Municipio/Partials/Navigation/HelperNavBeforeContent', '__return_false');
 
         // Place Quicklinks below the content on all places
-        add_filter('Municipio/Controller/Singular/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
+        add_filter('Municipio/Helper/Navigation/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
 
         // Only display current term and it's children in secondary query filter
         add_filter('Municipio/secondaryQuery/getTermsArgs', [$this, 'getTermsArgs'], 10, 2);
