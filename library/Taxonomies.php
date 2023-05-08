@@ -27,6 +27,7 @@ class Taxonomies
             'key'          => 'activity',
             'post_types'   => ['place', 'guide'],
             'hierarchical' => true,
+            'rewrite' => array( 'hierarchical' => true ),
             'show_ui'      => true,
         ],        /**
         * VÄDERLEK (Solsken, Regn, Snö osv)
