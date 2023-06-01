@@ -61,6 +61,16 @@ class App
 
         // Print Bike Approved Accommodation info on places with the term
         add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
+
+        add_filter('Municipio/Archive/showFilter', [$this, 'hideFiltersOnTerms'], 10, 2);
+    }
+
+    public function hideFiltersOnTerms($displayFilters, $args)
+    {
+        if (is_tax()) {
+            $displayFilters = false;
+        }
+        return $displayFilters;
     }
 
 
@@ -69,7 +79,7 @@ class App
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
             $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                if(!is_array($term->icon)) {
+                if (!is_array($term->icon)) {
                     continue;
                 }
                 $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
