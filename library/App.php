@@ -69,7 +69,7 @@ class App
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
             $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                if(!is_array($term->icon)) {
+                if (!is_array($term->icon)) {
                     continue;
                 }
                 $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
@@ -266,6 +266,11 @@ class App
                 'bike-approved-acommodation', // common misspelling of "accommodation"
                 'bike-approved-accomodation', // common misspelling of "accommodation"
                 'bike-approved',
+                'bike-friendly-accommodation',
+                'bike-friendly-acommodation', // common misspelling of "accommodation"
+                'bike-friendly-places',
+                'bike-friendly-place',
+                'bike-friendly-location',
             ]
         );
     }
