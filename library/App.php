@@ -61,6 +61,16 @@ class App
 
         // Print Bike Approved Accommodation info on places with the term
         add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
+
+        add_filter('Municipio/Archive/showFilter', [$this, 'hideFiltersOnTerms'], 10, 2);
+    }
+
+    public function hideFiltersOnTerms($displayFilters, $args)
+    {
+        if (is_tax()) {
+            $displayFilters = false;
+        }
+        return $displayFilters;
     }
 
 
