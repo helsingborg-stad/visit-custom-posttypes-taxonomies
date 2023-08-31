@@ -18,13 +18,6 @@ if (file_exists(plugin_dir_path(__FILE__) . 'vendor/autoload.php')) {
 }
 
 /**
- * Autoload files in library folder
- */
-foreach (glob(plugin_dir_path(__FILE__) . 'library/*.php') as $file) {
-    require_once $file;
-}
-
-/**
  * Instantiate main plugin class
  */
 Visit\App::instance();
