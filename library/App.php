@@ -55,9 +55,9 @@ class App
         add_filter('Municipio/Navigation/Item', [$this, 'quicklinksSearchMenuItem'], 10, 3);
 
         // Unlinked terms with term icons from custom taxonomy "other"
-        add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'appendListingItems'], 11, 2);
+        add_filter('Municipio/Controller/SingularContentType/listing', [$this, 'appendListingItems'], 11, 2);
         // Order listing items
-        add_filter('Municipio/Controller/SingularPurpose/listing', [$this, 'orderListingItems'], 99, 1);
+        add_filter('Municipio/Controller/SingularContentType/listing', [$this, 'orderListingItems'], 99, 1);
 
         // Print Bike Approved Accommodation info on places with the term
         add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
