@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-          "Visit\\": "library/"
+            "Visit\\": "library/"
         }
-    }
+    },
+    "version": "1.0.0"
 }
