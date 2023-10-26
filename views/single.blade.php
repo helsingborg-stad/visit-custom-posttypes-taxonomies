@@ -9,5 +9,3 @@
             @include('partials.navigation.fixed')
         @endif
     @endif
-
-@stop
