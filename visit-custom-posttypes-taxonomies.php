@@ -4,7 +4,7 @@
  * Plugin Name: Visit Helsingborg: Custom Post Types, Taxonomies and ACF Fields
  * Plugin URI: -
  * Description:
- * Version: 2.0.5
+ * Version: 2.0.6
  * Author: Anna Johansson
  * Author URI: -
  * Text domain: visit
