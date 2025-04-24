@@ -46,7 +46,7 @@ class App
         add_filter('Municipio/Partials/Navigation/HelperNavBeforeContent', '__return_false');
 
         // Place Quicklinks below the content on all places
-        add_filter('Municipio/Helper/Navigation/displayQuicklinksAfterContent', [$this, 'placeQuicklinksAfterContent'], 10, 2);
+        add_filter('Municipio/QuickLinksPlacement', [$this, 'placeQuicklinksAfterContent'], 10, 2);
 
         // Only display current term and it's children in secondary query filter
         add_filter('Municipio/secondaryQuery/getTermsArgs', [$this, 'getTermsArgs'], 10, 2);
@@ -148,12 +148,12 @@ class App
         }
         return $data;
     }
-    public function placeQuicklinksAfterContent($displayAfterContent, $postId)
+    public function placeQuicklinksAfterContent($placement, $postId)
     {
-        if (get_post_type($postId) == 'place') {
-            return true;
+        if (get_post_type($postId) === 'place') {
+            return "below_content";
         }
-        return $displayAfterContent;
+        return $placement;
     }
     public function quickLinkColors($item)
     {
