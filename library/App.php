@@ -63,6 +63,12 @@ class App
         add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
 
         add_filter('Municipio/Archive/showFilter', [$this, 'hideFiltersOnTerms'], 10, 2);
+
+        // Cache invalidation hooks for performance optimization
+        add_action('created_term', [$this, 'clearVisitCaches'], 10, 3);
+        add_action('edited_term', [$this, 'clearVisitCaches'], 10, 3);
+        add_action('delete_term', [$this, 'clearVisitCaches'], 10, 4);
+        add_action('save_post', [$this, 'clearPostCaches'], 10, 3);
     }
 
     public function hideFiltersOnTerms($displayFilters, $args)
@@ -76,19 +82,34 @@ class App
 
     public function appendListingItems($listing, $fields)
     {
-        if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
-            $listing['other'] = [];
-            foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
-                if (!is_array($term->icon)) {
-                    continue;
-                }
-                $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
-                    $term->name,
-                    '',
-                    $term->icon,
-                );
-            }
+        if (empty($fields['other']) || !class_exists('\Municipio\Helper\Listing')) {
+            return $listing;
         }
+
+        // Use transient caching for listing items to avoid repeated processing
+        $cache_key = 'listing_items_' . md5(serialize($fields['other']));
+        $cached_items = get_transient($cache_key);
+        
+        if ($cached_items !== false) {
+            $listing['other'] = $cached_items;
+            return $listing;
+        }
+
+        $listing['other'] = [];
+        foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
+            if (!is_array($term->icon)) {
+                continue;
+            }
+            $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
+                $term->name,
+                '',
+                $term->icon,
+            );
+        }
+
+        // Cache for 1 hour
+        set_transient($cache_key, $listing['other'], HOUR_IN_SECONDS);
+        
         return $listing;
     }
 
@@ -157,7 +178,17 @@ class App
     }
     public function quickLinkColors($item)
     {
-        $item['color'] = get_field('menu_item_color', $item['id']);
+        // Use object cache for ACF field values to reduce database queries
+        $cache_key = 'menu_item_color_' . $item['id'];
+        $color = wp_cache_get($cache_key, 'visit_plugin');
+        
+        if ($color === false) {
+            $color = get_field('menu_item_color', $item['id']);
+            // Cache for the duration of the request
+            wp_cache_set($cache_key, $color, 'visit_plugin', 0);
+        }
+        
+        $item['color'] = $color;
         return $item;
     }
 
@@ -174,45 +205,73 @@ class App
      */
     public function getTermsArgs(array $args = [], array $data = [])
     {
-
         $pageForTerms = $this->isPageForTerm();
 
         if (empty($pageForTerms) || !in_array($args['taxonomy'], ['activity', 'cuisine'])) {
             return $args;
         }
 
+        // Create cache key for this specific request
+        $cache_key = 'term_args_' . md5(serialize([$pageForTerms, $args['taxonomy']]));
+        $cached_result = get_transient($cache_key);
+        
+        if ($cached_result !== false) {
+            return $cached_result;
+        }
+
         if ($args['taxonomy'] === 'cuisine') {
-            $pageForTerms = $this->isPageForTerm();
-            foreach ($pageForTerms as $termId) {
-                $term = get_term($termId);
-                if (is_a($term, 'WP_Term') && 'activity' == $term->taxonomy) {
+            // Batch fetch all terms at once instead of individual queries
+            $terms = get_terms([
+                'taxonomy' => 'activity',
+                'include' => $pageForTerms,
+                'hide_empty' => false,
+                'fields' => 'all'
+            ]);
+            
+            if (!empty($terms) && !is_wp_error($terms)) {
+                foreach ($terms as $term) {
                     if ($this->isFoodRelated($term->slug)) {
-                        // We've found at least one food-related activity on this page,
-                        // so we can return the args for the cuisine filter and display it.
+                        // Cache the positive result for 1 hour
+                        set_transient($cache_key, $args, HOUR_IN_SECONDS);
                         return $args;
                     }
                 }
             }
+            
+            // Cache the negative result for 1 hour
+            set_transient($cache_key, false, HOUR_IN_SECONDS);
             return false;
         }
 
         if (isset($args['taxonomy']) && $args['taxonomy'] == 'activity') {
+            // Batch fetch all terms at once
+            $terms = get_terms([
+                'taxonomy' => 'activity',
+                'include' => $pageForTerms,
+                'hide_empty' => false,
+                'fields' => 'all'
+            ]);
+            
             $termIdsToInclude = [];
-            foreach ($pageForTerms as $termId) {
-                $term = get_term($termId);
-                if (is_a($term, 'WP_Term')) {
-                    $termChildren = get_term_children($termId, $term->taxonomy);
+            
+            if (!empty($terms) && !is_wp_error($terms)) {
+                foreach ($terms as $term) {
+                    $termChildren = get_term_children($term->term_id, $term->taxonomy);
                     if (!empty($termChildren) && !is_wp_error($termChildren)) {
                         $termIdsToInclude = array_merge($termIdsToInclude, $termChildren);
                     }
                 }
             }
+            
             // No child terms found, no need to display the filter.
             if (empty($termIdsToInclude)) {
+                set_transient($cache_key, false, HOUR_IN_SECONDS);
                 return false;
             }
+            
             // Child term found, include only those in the filter.
-            $args['include'] = $termIdsToInclude;
+            $args['include'] = array_unique($termIdsToInclude);
+            set_transient($cache_key, $args, HOUR_IN_SECONDS);
         }
 
         return $args;
@@ -295,27 +354,110 @@ class App
      */
     public function appendBikeApprovedAccommodationInfo($postObject)
     {
-        if (property_exists($postObject, 'post_content_filtered')) {
-            $terms = get_the_terms($postObject->ID, 'other');
-            if (!empty($terms)) {
-                foreach ($terms as $term) {
-                    if ($this->isBikeApprovedAccommodation($term->slug)) {
-                        $description = get_field('description', $term) ?? term_description($term) ?? false;
-                        $postObject->post_content_filtered .= apply_filters('the_content', \render_blade_view(
-                            'partials.bike-approved-accommodation',
-                            [
-                                'description' => str_replace(
-                                    ["[plats]","[place]"], // Replace with the name of the place being displayed.
-                                    $postObject->post_title,
-                                    $description
-                                )
-                            ]
-                        ));
-                        break;
-                    }
+        // Early return if post_content_filtered doesn't exist
+        if (!property_exists($postObject, 'post_content_filtered')) {
+            return $postObject;
+        }
+
+        // Only process 'place' post type for performance
+        if (get_post_type($postObject->ID) !== 'place') {
+            return $postObject;
+        }
+
+        // Use transient caching for terms to avoid repeated database queries
+        $cache_key = 'bike_approved_terms_' . $postObject->ID;
+        $cached_result = get_transient($cache_key);
+        
+        if ($cached_result !== false) {
+            if ($cached_result['has_bike_approved']) {
+                $postObject->post_content_filtered .= $cached_result['content'];
+            }
+            return $postObject;
+        }
+
+        $terms = get_the_terms($postObject->ID, 'other');
+        $result = ['has_bike_approved' => false, 'content' => ''];
+        
+        if (!empty($terms) && !is_wp_error($terms)) {
+            foreach ($terms as $term) {
+                if ($this->isBikeApprovedAccommodation($term->slug)) {
+                    $description = get_field('description', $term) ?? term_description($term) ?? false;
+                    $content = apply_filters('the_content', \render_blade_view(
+                        'partials.bike-approved-accommodation',
+                        [
+                            'description' => str_replace(
+                                ["[plats]","[place]"], // Replace with the name of the place being displayed.
+                                $postObject->post_title,
+                                $description
+                            )
+                        ]
+                    ));
+                    
+                    $result = ['has_bike_approved' => true, 'content' => $content];
+                    $postObject->post_content_filtered .= $content;
+                    break;
                 }
             }
         }
+
+        // Cache for 1 hour to reduce database load
+        set_transient($cache_key, $result, HOUR_IN_SECONDS);
+        
         return $postObject;
+    }
+
+    /**
+     * Clear relevant caches when terms are modified
+     *
+     * @param int $term_id The term ID
+     * @param int $tt_id The term taxonomy ID
+     * @param string $taxonomy The taxonomy name
+     */
+    public function clearVisitCaches($term_id, $tt_id = null, $taxonomy = null, $deleted_term = null)
+    {
+        // Clear term-related transients
+        $this->clearTransientsByPattern('term_args_');
+        $this->clearTransientsByPattern('listing_items_');
+        
+        // Clear object cache for menu colors
+        wp_cache_flush_group('visit_plugin');
+    }
+
+    /**
+     * Clear post-specific caches when posts are saved
+     *
+     * @param int $post_id The post ID
+     * @param WP_Post $post The post object
+     * @param bool $update Whether this is an update
+     */
+    public function clearPostCaches($post_id, $post, $update)
+    {
+        if (in_array($post->post_type, ['place', 'guide'])) {
+            // Clear bike approved accommodation cache for this specific post
+            delete_transient('bike_approved_terms_' . $post_id);
+        }
+    }
+
+    /**
+     * Clear transients by pattern (WordPress doesn't have a built-in way to do this efficiently)
+     *
+     * @param string $pattern The pattern to match
+     */
+    private function clearTransientsByPattern($pattern)
+    {
+        global $wpdb;
+        
+        // Get all transients that match the pattern
+        $transients = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s",
+                '_transient_' . $pattern . '%'
+            )
+        );
+        
+        foreach ($transients as $transient) {
+            $key = str_replace('_transient_', '', $transient);
+            delete_transient($key);
+        }
     }
 }
