@@ -143,21 +143,48 @@ class Taxonomies
      */
     public function normalizePlaceActivities($postId, $post, $update)
     {
-        if (isset($_POST['acf']['field_63dcbd00231bd'])) {
-            $termIds = $_POST['acf']['field_63dcbd00231bd'];
-            foreach ($termIds as $termId) {
-                $term = get_term_by('term_id', $termId, 'activity');
-                if (!is_wp_error($term)) {
-                    $ancestors = get_ancestors($term->term_id, $term->taxonomy);
-                    if (!is_wp_error($ancestors)) {
-                        foreach ($ancestors as $ancestorId) {
-                            if (!in_array($ancestorId, $_POST['acf']['field_63dcbd00231bd'], true)) {
-                                array_push($_POST['acf']['field_63dcbd00231bd'], $ancestorId);
-                            }
-                        }
+        if (!isset($_POST['acf']['field_63dcbd00231bd']) || empty($_POST['acf']['field_63dcbd00231bd'])) {
+            return;
+        }
+
+        $termIds = $_POST['acf']['field_63dcbd00231bd'];
+        
+        // Early return if no terms to process
+        if (empty($termIds)) {
+            return;
+        }
+
+        // Batch fetch all terms at once to reduce database queries
+        $terms = get_terms([
+            'taxonomy' => 'activity',
+            'include' => $termIds,
+            'hide_empty' => false,
+            'fields' => 'all'
+        ]);
+
+        if (is_wp_error($terms) || empty($terms)) {
+            return;
+        }
+
+        $ancestorsToAdd = [];
+        
+        foreach ($terms as $term) {
+            $ancestors = get_ancestors($term->term_id, $term->taxonomy);
+            if (!is_wp_error($ancestors) && !empty($ancestors)) {
+                foreach ($ancestors as $ancestorId) {
+                    if (!in_array($ancestorId, $_POST['acf']['field_63dcbd00231bd'], true)) {
+                        $ancestorsToAdd[] = $ancestorId;
                     }
                 }
             }
+        }
+
+        // Add all ancestors at once
+        if (!empty($ancestorsToAdd)) {
+            $_POST['acf']['field_63dcbd00231bd'] = array_merge(
+                $_POST['acf']['field_63dcbd00231bd'], 
+                array_unique($ancestorsToAdd)
+            );
         }
     }
 }
