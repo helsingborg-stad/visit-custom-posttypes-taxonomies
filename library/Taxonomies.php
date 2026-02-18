@@ -143,7 +143,11 @@ class Taxonomies
      */
     public function normalizePlaceActivities($postId, $post, $update)
     {
-        if (isset($_POST['acf']['field_63dcbd00231bd'])) {
+        if (
+            isset($_POST['acf']['field_63dcbd00231bd']) &&
+            is_array($_POST['acf']['field_63dcbd00231bd']) &&
+            !empty($_POST['acf']['field_63dcbd00231bd'])
+        ) {
             $termIds = $_POST['acf']['field_63dcbd00231bd'];
             foreach ($termIds as $termId) {
                 $term = get_term_by('term_id', $termId, 'activity');
