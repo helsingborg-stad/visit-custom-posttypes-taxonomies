@@ -4,6 +4,8 @@ namespace Visit;
 
 class App
 {
+    private ?array $fields = null;
+
     /**
      * The unique instance of the plugin.
      *
@@ -55,14 +57,109 @@ class App
         add_filter('Municipio/Navigation/Item', [$this, 'quicklinksSearchMenuItem'], 10, 3);
 
         // Unlinked terms with term icons from custom taxonomy "other"
-        add_filter('Municipio/Controller/SingularPlace/listing', [$this, 'appendListingItems'], 11, 2);
+        add_filter('Municipio/Controller/SingularPlace/placeInfoList', [$this, 'appendListingItems'], 11, 2);
         // Order listing items
         add_filter('Municipio/Controller/SingularPlace/listing', [$this, 'orderListingItems'], 99, 1);
 
-        // Print Bike Approved Accommodation info on places with the term
-        add_filter('Municipio/Helper/Post/postObject', [$this, 'appendBikeApprovedAccommodationInfo'], 10, 1);
-
         add_filter('Municipio/Archive/showFilter', [$this, 'hideFiltersOnTerms'], 10, 2);
+
+        add_filter('Municipio/Controller/Archive/modifyQueryArgs', [$this, 'modifyArchiveQueryArgs'], 10, 2);
+
+        add_filter('Municipio/PostObject/getContent', [$this, 'addBikeApprovedAccommodationInfoToPostContent'], 10, 2);
+
+        //Hijack schema properties
+        add_filter('Municipio/PostObject/getSchemaProperty/Place/telephone', [$this, 'modifySchemaTelephoneResponse'], 10, 4);
+        add_filter('Municipio/PostObject/getSchemaProperty/Place/url', [$this, 'modifySchemaWebsiteResponse'], 10, 4);
+        
+        add_filter('Municipio/PostObject/getSchemaProperty/Place/tourBookingPage', [$this, 'modifySchemaTourBookingPageResponse'], 10, 4);
+    }
+
+    public function modifySchemaTourBookingPageResponse($value, $postObject, $property, $type) {
+        $fields = $this->getFields($postObject->getId());
+        
+        if (empty($fields['booking_link'])) {
+            return $value;
+        }
+
+        if (empty($value)) {
+            $value = [];
+        }
+
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        $value[] = $fields['booking_link'];
+
+        return $value;
+
+    }
+
+    public function modifySchemaWebsiteResponse($value, $postObject, $property, $type) {
+        $fields = $this->getFields($postObject->getId());
+        if (empty($fields['website'])) {
+            return $value;
+        }
+
+        if (empty($value)) {
+            $value = [];
+        }
+
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        $value[] = $fields['website'];
+
+        return $value;
+    }
+
+    public function modifySchemaTelephoneResponse($value, $postObject, $property, $type) {
+            $fields = $this->getFields($postObject->getId());
+            if (empty($fields['phone'])) {
+                return $value;
+            }
+
+            if (empty($value)) {
+                $value = [];
+            }
+
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+
+            $value[] = $fields['phone'];
+
+            return $value;
+        }
+
+    private function getFields($postId = null) {
+        if (!$postId) {
+            return null;
+        }
+
+        if (isset($this->fields[$postId])) {
+            return $this->fields[$postId];
+        }
+
+        if (is_null($this->fields)) {
+            $this->fields = [];
+        }
+
+        if (!isset($this->fields[$postId])) {
+            $this->fields[$postId] = get_fields($postId);
+        }
+
+        return $this->fields[$postId];
+    }
+
+    public function addBikeApprovedAccommodationInfoToPostContent($value, $postObject)
+    {
+        if ($postObject->getPostType() === 'place') {
+            $value .= $this->appendBikeApprovedAccommodationInfo($postObject);
+        }
+
+        return $value;
     }
 
     public function hideFiltersOnTerms($displayFilters, $args)
@@ -74,21 +171,22 @@ class App
     }
 
 
-    public function appendListingItems($listing, $fields)
+    public function appendListingItems($listing, $postObject)
     {
+        $fields = $this->getFields($postObject->getId());
         if (!empty($fields['other']) && class_exists('\Municipio\Helper\Listing')) {
-            $listing['other'] = [];
             foreach (\Municipio\Helper\Listing::getTermsWithIcon($fields['other']) as $term) {
                 if (!is_array($term->icon)) {
                     continue;
                 }
-                $listing['other'][$term->slug] = \Municipio\Helper\Listing::createListingItem(
+                $listing[] = \Municipio\Helper\Listing::createListingItem(
                     $term->name,
                     '',
                     $term->icon,
                 );
             }
         }
+
         return $listing;
     }
 
@@ -293,29 +391,26 @@ class App
      *
      * @return $postObject
      */
-    public function appendBikeApprovedAccommodationInfo($postObject)
+    public function appendBikeApprovedAccommodationInfo($postObject): string
     {
-        if (property_exists($postObject, 'post_content_filtered')) {
-            $terms = get_the_terms($postObject->ID, 'other');
-            if (!empty($terms)) {
-                foreach ($terms as $term) {
-                    if ($this->isBikeApprovedAccommodation($term->slug)) {
-                        $description = get_field('description', $term) ?? term_description($term) ?? false;
-                        $postObject->post_content_filtered .= apply_filters('the_content', \render_blade_view(
-                            'partials.bike-approved-accommodation',
-                            [
-                                'description' => str_replace(
-                                    ["[plats]","[place]"], // Replace with the name of the place being displayed.
-                                    $postObject->post_title,
-                                    $description
-                                )
-                            ]
-                        ));
-                        break;
-                    }
+        $terms = get_the_terms($postObject->ID, 'other');
+        if (!empty($terms)) {
+            foreach ($terms as $term) {
+                if ($this->isBikeApprovedAccommodation($term->slug)) {
+                    $description = get_field('description', $term) ?? term_description($term) ?? false;
+                    return apply_filters('the_content', \render_blade_view(
+                        'partials.bike-approved-accommodation',
+                        [
+                            'description' => str_replace(
+                                ["[plats]","[place]"], // Replace with the name of the place being displayed.
+                                $postObject->post_title,
+                                $description
+                            )
+                        ]
+                    ));
                 }
             }
         }
-        return $postObject;
+        return '';
     }
 }
