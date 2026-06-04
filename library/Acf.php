@@ -6,7 +6,7 @@ class Acf
 {
     public function __construct()
     {
-        // Acf auto import and export ACF Fields
+        // Acf auto import and export ACF Fields using export manager
         add_action('acf/init', function () {
             $acfExportManager = new \AcfExportManager\AcfExportManager();
             $acfExportManager->setTextdomain('visit');
